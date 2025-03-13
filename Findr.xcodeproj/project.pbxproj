@@ -7,10 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-
-    }
-  ]
-}
+		1181E4EBE79B5769465A4C1D /* IttmDetealVieww.swift in Sources */ = {isa = PBXBuildFile; fileRef =090C0444D28B5F994E8D95966 /*ItemDIttilVtewew.swift */; };
 		302BFC08F8ECBCA8477CF0D2 /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE998C21F2426730B53D3D2B /* Target.swift */; };
 		3101273578A83D05D56A8DEE /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = C185D645E374C6C702DA84DF /* Shared.swift */; };
 		333BA90132FA99F62E25CA1A /* ItemListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47375F0E854166436D49B2B /* ItemListViewModel.swift */; };
@@ -25,7 +22,7 @@
 		8ED9FA0B35FB20C9A41DD83B /* FindrApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52970218AFBFB22BF071BA3A /* FindrApp.swift */; };
 		A7961CA5552E65B031F20248 /* EditItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A527FFCD7C613003FC14938 /* EditItemView.swift */; };
 		CB81081BF5C9DEA55D606FF6 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AC0F40521907EE0B8DF740 /* SearchViewModel.swift */; };
-		CE616F9D05933D16E89EE58F /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE616F9D05933D16E89EE58F /* Location.swift */; };
+		CE616F9D05933D16E89EE58F /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FA6A2E61D4AB57BF1AA03AD /* Location.swift */; };
 		D02E7E9DC1C27D41B39BBC3E /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51525F8CC95D28614C86F586 /* AddItemView.swift */; };
 		D84AD80E2A0AD945CD4F5AA3 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EE45431EC604BF16235D13 /* LocationViewModel.swift */; };
 		DCCFEA028E3360209A19559A /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C1D0A7BA582CE86DB85C1B /* ItemListView.swift */; };
@@ -42,7 +39,7 @@
 		5B252FB8C9B7859AC5808757 /* LocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailView.swift; sourceTree = "<group>"; };
 		5DC71A9B94965344360535BE /* LocationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerView.swift; sourceTree = "<group>"; };
 		73C1D0A7BA582CE86DB85C1B /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
-		7FA6A2E61D4AB57BF1AA03AD /* SearchHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistory.swift; sourceTree = "<group>"; };
+		7FA6A2E61D4AB57BF1AA03AD /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		8A527FFCD7C613003FC14938 /* EditItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemView.swift; sourceTree = "<group>"; };
 		9F2C437AA7AC5C4B39CC0FC1 /* AddLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationView.swift; sourceTree = "<group>"; };
 		AEDF9B37D2A43AB92E8C8EF8 /* AddItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemViewModel.swift; sourceTree = "<group>"; };
@@ -104,8 +101,7 @@
 		6B4CEA713275F1A99E20C69A /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				7FA6A2E61D4AB57BF1AA03AD /* SearchHistory.swift */,
-				CE616F9D05933D16E89EE58F /* Location.swift */,
+				7FA6A2E61D4AB57BF1AA03AD /* Location.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -136,7 +132,7 @@
 			children = (
 				51525F8CC95D28614C86F586 /* AddItemView.swift */,
 				8A527FFCD7C613003FC14938 /* EditItemView.swift */,
-				1481E4EB7798506A46CF1C1D /* ItemDetailView.swift in Sources */,
+				0B0C0144028BAF994E8DD596 /* ItemDetailView.swift */,
 				73C1D0A7BA582CE86DB85C1B /* ItemListView.swift */,
 			);
 			path = Items;
@@ -216,9 +212,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				D02E7E9DC1C27D41B39BBC3E /* AddItemView.swift in Sources */,
-				7FA6A2E61D4AB57BF1AA03AD /* SearchHistory.swift in Sources */;
-				CE616F9D05933D16E89EE58F /* Location.swift in Sources */;
-				D02E7E9DC1C27D41B39BBC3E /* AddItemView.swift in Sources */,
+				33C52838DEB5E1E0983B107B /* AddItemViewModel.swift in Sources */,
+				50AAEE4A89DEB139B24ABC66 /* AddLocationView.swift in Sources */,
+				3C4464E0B6D9735ECFB43DA0 /* ContentView.swift in Sources */,
+				A7961CA5552E65B031F20248 /* EditItemView.swift in Sources */,
+				8ED9FA0B35FB20C9A41DD83B /* FindrApp.swift in Sources */,
+				3657F0FB2B684BE8324E464B /* FlowLayout.swift in Sources */,
+				1481E4EB7798506A46CF1C1D /* ItemDetailView.swift in Sources */,
+				DCCFEA028E3360209A19559A /* ItemListView.swift in Sources */,
+				333BA90132FA99F62E25CA1A /* ItemListViewModel.swift in Sources */,
+				CE616F9D05933D16E89EE58F /* Location.swift in Sources */,
+				743FBC53E0C5E3404A2699AB /* LocationDetailView.swift in Sources */,
+				5411538A4FD7EB44E5E400D7 /* LocationPickerView.swift in Sources */,
+				519ACA0CA49634D2E07AECB7 /* LocationView.swift in Sources */,
+				D84AD80E2A0AD945CD4F5AA3 /* LocationViewModel.swift in Sources */,
+				603F7E87476844D1B49DB4A0 /* SearchView.swift in Sources */,
+				CB81081BF5C9DEA55D606FF6 /* SearchViewModel.swift in Sources */,
+				3101273578A83D05D56A8DEE /* Shared.swift in Sources */,
+				E89338C2FA61ADA552A6A3D4 /* TagInputView.swift in Sources */,
+				302BFC08F8ECBCA8477CF0D2 /* Target.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,8 +279,62 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
