@@ -1,0 +1,355 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+
+    }
+  ]
+}
+		302BFC08F8ECBCA8477CF0D2 /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE998C21F2426730B53D3D2B /* Target.swift */; };
+		3101273578A83D05D56A8DEE /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = C185D645E374C6C702DA84DF /* Shared.swift */; };
+		333BA90132FA99F62E25CA1A /* ItemListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47375F0E854166436D49B2B /* ItemListViewModel.swift */; };
+		33C52838DEB5E1E0983B107B /* AddItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDF9B37D2A43AB92E8C8EF8 /* AddItemViewModel.swift */; };
+		3657F0FB2B684BE8324E464B /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A868CA35F5B095F6B603A9 /* FlowLayout.swift */; };
+		3C4464E0B6D9735ECFB43DA0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D242050CC59D65676C70B86 /* ContentView.swift */; };
+		50AAEE4A89DEB139B24ABC66 /* AddLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2C437AA7AC5C4B39CC0FC1 /* AddLocationView.swift */; };
+		519ACA0CA49634D2E07AECB7 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2561FAE7303D2CAFC1F698 /* LocationView.swift */; };
+		5411538A4FD7EB44E5E400D7 /* LocationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC71A9B94965344360535BE /* LocationPickerView.swift */; };
+		603F7E87476844D1B49DB4A0 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC8CB7DEE22A845E4796C25 /* SearchView.swift */; };
+		743FBC53E0C5E3404A2699AB /* LocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B252FB8C9B7859AC5808757 /* LocationDetailView.swift */; };
+		8ED9FA0B35FB20C9A41DD83B /* FindrApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52970218AFBFB22BF071BA3A /* FindrApp.swift */; };
+		A7961CA5552E65B031F20248 /* EditItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A527FFCD7C613003FC14938 /* EditItemView.swift */; };
+		CB81081BF5C9DEA55D606FF6 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AC0F40521907EE0B8DF740 /* SearchViewModel.swift */; };
+		CE616F9D05933D16E89EE58F /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE616F9D05933D16E89EE58F /* Location.swift */; };
+		D02E7E9DC1C27D41B39BBC3E /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51525F8CC95D28614C86F586 /* AddItemView.swift */; };
+		D84AD80E2A0AD945CD4F5AA3 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EE45431EC604BF16235D13 /* LocationViewModel.swift */; };
+		DCCFEA028E3360209A19559A /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C1D0A7BA582CE86DB85C1B /* ItemListView.swift */; };
+		E89338C2FA61ADA552A6A3D4 /* TagInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3DCEAB678FBE3A209A4FD3 /* TagInputView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0B0C0144028BAF994E8DD596 /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
+		0D242050CC59D65676C70B86 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		26EE45431EC604BF16235D13 /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
+		3DC8CB7DEE22A845E4796C25 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		51525F8CC95D28614C86F586 /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
+		52970218AFBFB22BF071BA3A /* FindrApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindrApp.swift; sourceTree = "<group>"; };
+		5B252FB8C9B7859AC5808757 /* LocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailView.swift; sourceTree = "<group>"; };
+		5DC71A9B94965344360535BE /* LocationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerView.swift; sourceTree = "<group>"; };
+		73C1D0A7BA582CE86DB85C1B /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
+		7FA6A2E61D4AB57BF1AA03AD /* SearchHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistory.swift; sourceTree = "<group>"; };
+		8A527FFCD7C613003FC14938 /* EditItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemView.swift; sourceTree = "<group>"; };
+		9F2C437AA7AC5C4B39CC0FC1 /* AddLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationView.swift; sourceTree = "<group>"; };
+		AEDF9B37D2A43AB92E8C8EF8 /* AddItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemViewModel.swift; sourceTree = "<group>"; };
+		B3AC0F40521907EE0B8DF740 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		B47375F0E854166436D49B2B /* ItemListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListViewModel.swift; sourceTree = "<group>"; };
+		BE998C21F2426730B53D3D2B /* Target.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
+		C185D645E374C6C702DA84DF /* Shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
+		CF7FA69D295345B0D1C0C80C /* Findr.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Findr.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8A868CA35F5B095F6B603A9 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
+		DB2561FAE7303D2CAFC1F698 /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
+		E18324C1758971E1770C19B1 /* Findr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Findr-Bridging-Header.h"; sourceTree = "<group>"; };
+		FF3DCEAB678FBE3A209A4FD3 /* TagInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagInputView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		1F78624A7456914BDD40F331 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				84D093E114326A1912F42F96 /* Components */,
+				8F6DC6C9FEDC056DE7D43F3C /* Items */,
+				FA6B13ECAD1F5318E55047FB /* Locations */,
+				535564E877EAAFFC0905A41F /* Search */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		343E6586AF7B5F608507CE47 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CF7FA69D295345B0D1C0C80C /* Findr.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		535564E877EAAFFC0905A41F /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				3DC8CB7DEE22A845E4796C25 /* SearchView.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		5AE689513216914EC20F7EF1 /* Findr */ = {
+			isa = PBXGroup;
+			children = (
+				0D242050CC59D65676C70B86 /* ContentView.swift */,
+				E18324C1758971E1770C19B1 /* Findr-Bridging-Header.h */,
+				52970218AFBFB22BF071BA3A /* FindrApp.swift */,
+				C185D645E374C6C702DA84DF /* Shared.swift */,
+				BE998C21F2426730B53D3D2B /* Target.swift */,
+				6B4CEA713275F1A99E20C69A /* Models */,
+				8CDEC5A9C04D120891DF43D3 /* ViewModels */,
+				1F78624A7456914BDD40F331 /* Views */,
+			);
+			name = Findr;
+			path = Findr/Findr;
+			sourceTree = "<group>";
+		};
+		6B4CEA713275F1A99E20C69A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7FA6A2E61D4AB57BF1AA03AD /* SearchHistory.swift */,
+				CE616F9D05933D16E89EE58F /* Location.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		84D093E114326A1912F42F96 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				D8A868CA35F5B095F6B603A9 /* FlowLayout.swift */,
+				5DC71A9B94965344360535BE /* LocationPickerView.swift */,
+				FF3DCEAB678FBE3A209A4FD3 /* TagInputView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		8CDEC5A9C04D120891DF43D3 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				AEDF9B37D2A43AB92E8C8EF8 /* AddItemViewModel.swift */,
+				B47375F0E854166436D49B2B /* ItemListViewModel.swift */,
+				26EE45431EC604BF16235D13 /* LocationViewModel.swift */,
+				B3AC0F40521907EE0B8DF740 /* SearchViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		8F6DC6C9FEDC056DE7D43F3C /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				51525F8CC95D28614C86F586 /* AddItemView.swift */,
+				8A527FFCD7C613003FC14938 /* EditItemView.swift */,
+				1481E4EB7798506A46CF1C1D /* ItemDetailView.swift in Sources */,
+				73C1D0A7BA582CE86DB85C1B /* ItemListView.swift */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
+		F853355DF1D6BA499574650B = {
+			isa = PBXGroup;
+			children = (
+				5AE689513216914EC20F7EF1 /* Findr */,
+				343E6586AF7B5F608507CE47 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FA6B13ECAD1F5318E55047FB /* Locations */ = {
+			isa = PBXGroup;
+			children = (
+				9F2C437AA7AC5C4B39CC0FC1 /* AddLocationView.swift */,
+				5B252FB8C9B7859AC5808757 /* LocationDetailView.swift */,
+				DB2561FAE7303D2CAFC1F698 /* LocationView.swift */,
+			);
+			path = Locations;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AA2B12CCCA856CF3B8781362 /* Findr */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43332BFC7CCE787109DA0599 /* Build configuration list for PBXNativeTarget "Findr" */;
+			buildPhases = (
+				1788CE943DE3CD123B6C613A /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Findr;
+			productName = Findr;
+			productReference = CF7FA69D295345B0D1C0C80C /* Findr.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		366655FA05804EF9C41BECDF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					AA2B12CCCA856CF3B8781362 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 2B3AAE06CFF50DB34A176D29 /* Build configuration list for PBXProject "Findr" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = F853355DF1D6BA499574650B;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AA2B12CCCA856CF3B8781362 /* Findr */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1788CE943DE3CD123B6C613A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D02E7E9DC1C27D41B39BBC3E /* AddItemView.swift in Sources */,
+				7FA6A2E61D4AB57BF1AA03AD /* SearchHistory.swift in Sources */;
+				CE616F9D05933D16E89EE58F /* Location.swift in Sources */;
+				D02E7E9DC1C27D41B39BBC3E /* AddItemView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		41E1E78B56F79EA80400F243 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = Findr/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.findr;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		930437736E89F049CD173954 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = Findr/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.findr;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BA45AEEEB7C2DB49F71E53D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+			};
+			name = Debug;
+		};
+		BF8C759797B2823CAF46CE29 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2B3AAE06CFF50DB34A176D29 /* Build configuration list for PBXProject "Findr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA45AEEEB7C2DB49F71E53D2 /* Debug */,
+				BF8C759797B2823CAF46CE29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		43332BFC7CCE787109DA0599 /* Build configuration list for PBXNativeTarget "Findr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				930437736E89F049CD173954 /* Debug */,
+				41E1E78B56F79EA80400F243 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 366655FA05804EF9C41BECDF /* Project object */;
+}
