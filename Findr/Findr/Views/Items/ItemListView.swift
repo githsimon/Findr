@@ -31,6 +31,7 @@ struct ItemRowView: View {
     let item: Item
     
     var body: some View {
+        // 重新输入引用，确保正确拼写
         NavigationLink(destination: ItemDetailView(item: item)) {
             VStack(alignment: .leading) {
                 Text(item.name)

@@ -27,7 +27,11 @@ final class SearchViewModel: ObservableObject {
     
     // 添加新的搜索记录
     func addSearchHistory(text: String, filter: SearchFilter) {
+        // 只有当搜索文本不为空时才添加到历史记录
+        guard !text.isEmpty else { return }
+        
         let newHistory = SearchHistory(
+            id: UUID(),
             keyword: text, 
             filter: filter, 
             date: Date()

@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1181E4EBE79B5769465A4C1D /* IttmDetealVieww.swift in Sources */ = {isa = PBXBuildFile; fileRef =090C0444D28B5F994E8D95966 /*ItemDIttilVtewew.swift */; };
 		302BFC08F8ECBCA8477CF0D2 /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE998C21F2426730B53D3D2B /* Target.swift */; };
 		3101273578A83D05D56A8DEE /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = C185D645E374C6C702DA84DF /* Shared.swift */; };
 		333BA90132FA99F62E25CA1A /* ItemListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B47375F0E854166436D49B2B /* ItemListViewModel.swift */; };
@@ -18,6 +17,8 @@
 		519ACA0CA49634D2E07AECB7 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2561FAE7303D2CAFC1F698 /* LocationView.swift */; };
 		5411538A4FD7EB44E5E400D7 /* LocationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC71A9B94965344360535BE /* LocationPickerView.swift */; };
 		603F7E87476844D1B49DB4A0 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC8CB7DEE22A845E4796C25 /* SearchView.swift */; };
+		61BC429C2D83D53400AC871A /* SearchHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BC429B2D83D53400AC871A /* SearchHistory.swift */; };
+		61F9DD042D83D42C0058E1F9 /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F9DD032D83D42C0058E1F9 /* ItemDetailView.swift */; };
 		743FBC53E0C5E3404A2699AB /* LocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B252FB8C9B7859AC5808757 /* LocationDetailView.swift */; };
 		8ED9FA0B35FB20C9A41DD83B /* FindrApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52970218AFBFB22BF071BA3A /* FindrApp.swift */; };
 		A7961CA5552E65B031F20248 /* EditItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A527FFCD7C613003FC14938 /* EditItemView.swift */; };
@@ -30,7 +31,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0B0C0144028BAF994E8DD596 /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
 		0D242050CC59D65676C70B86 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		26EE45431EC604BF16235D13 /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
 		3DC8CB7DEE22A845E4796C25 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
@@ -38,6 +38,8 @@
 		52970218AFBFB22BF071BA3A /* FindrApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindrApp.swift; sourceTree = "<group>"; };
 		5B252FB8C9B7859AC5808757 /* LocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailView.swift; sourceTree = "<group>"; };
 		5DC71A9B94965344360535BE /* LocationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerView.swift; sourceTree = "<group>"; };
+		61BC429B2D83D53400AC871A /* SearchHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistory.swift; sourceTree = "<group>"; };
+		61F9DD032D83D42C0058E1F9 /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
 		73C1D0A7BA582CE86DB85C1B /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
 		7FA6A2E61D4AB57BF1AA03AD /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		8A527FFCD7C613003FC14938 /* EditItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemView.swift; sourceTree = "<group>"; };
@@ -52,7 +54,6 @@
 		DB2561FAE7303D2CAFC1F698 /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
 		E18324C1758971E1770C19B1 /* Findr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Findr-Bridging-Header.h"; sourceTree = "<group>"; };
 		FF3DCEAB678FBE3A209A4FD3 /* TagInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagInputView.swift; sourceTree = "<group>"; };
-		A1B2C3D4E5F6A7B8C9D0E1F2 /* SearchHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -103,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				7FA6A2E61D4AB57BF1AA03AD /* Location.swift */,
+				61BC429B2D83D53400AC871A /* SearchHistory.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -133,7 +135,7 @@
 			children = (
 				51525F8CC95D28614C86F586 /* AddItemView.swift */,
 				8A527FFCD7C613003FC14938 /* EditItemView.swift */,
-				0B0C0144028BAF994E8DD596 /* ItemDetailView.swift */,
+				61F9DD032D83D42C0058E1F9 /* ItemDetailView.swift */,
 				73C1D0A7BA582CE86DB85C1B /* ItemListView.swift */,
 			);
 			path = Items;
@@ -212,6 +214,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61F9DD042D83D42C0058E1F9 /* ItemDetailView.swift in Sources */,
 				D02E7E9DC1C27D41B39BBC3E /* AddItemView.swift in Sources */,
 				33C52838DEB5E1E0983B107B /* AddItemViewModel.swift in Sources */,
 				50AAEE4A89DEB139B24ABC66 /* AddLocationView.swift in Sources */,
@@ -219,10 +222,9 @@
 				A7961CA5552E65B031F20248 /* EditItemView.swift in Sources */,
 				8ED9FA0B35FB20C9A41DD83B /* FindrApp.swift in Sources */,
 				3657F0FB2B684BE8324E464B /* FlowLayout.swift in Sources */,
-				1481E4EB7798506A46CF1C1D /* ItemDetailView.swift in Sources */,
-				A3B4C5D6E7F8A9B0C1D2E3F4 /* SearchHistory.swift in Sources */,
 				DCCFEA028E3360209A19559A /* ItemListView.swift in Sources */,
 				333BA90132FA99F62E25CA1A /* ItemListViewModel.swift in Sources */,
+				61BC429C2D83D53400AC871A /* SearchHistory.swift in Sources */,
 				CE616F9D05933D16E89EE58F /* Location.swift in Sources */,
 				743FBC53E0C5E3404A2699AB /* LocationDetailView.swift in Sources */,
 				5411538A4FD7EB44E5E400D7 /* LocationPickerView.swift in Sources */,
