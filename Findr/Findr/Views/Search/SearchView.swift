@@ -17,6 +17,11 @@ struct SearchView: View {
                 .pickerStyle(.segmented)
                 .padding()
                 
+                // 搜索历史
+                if viewModel.searchText.isEmpty {
+                    SearchHistoryView(viewModel: viewModel)
+                }
+                
                 // 搜索结果
                 List {
                     ForEach(viewModel.searchResults) { item in

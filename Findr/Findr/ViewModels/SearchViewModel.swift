@@ -45,15 +45,41 @@ final class SearchViewModel: ObservableObject {
         saveSearchHistory()
     }
     
+    // 清除所有搜索历史
+    func clearSearchHistory() {
+        searchHistory.removeAll()
+        saveSearchHistory()
+    }
+    
+    // 从历史记录中选择一个搜索条目
+    func selectSearchHistoryItem(_ historyItem: SearchHistory) {
+        searchText = historyItem.keyword
+        selectedFilter = historyItem.filter
+    }
+    
+    // 删除特定的搜索历史记录
+    func removeSearchHistoryItem(_ historyItem: SearchHistory) {
+        searchHistory.removeAll { $0.id == historyItem.id }
+        saveSearchHistory()
+    }
+    
     private var cancellables = Set<AnyCancellable>()
     
     init() {
+        // 加载搜索历史
+        loadSearchHistory()
+        
         // 监听搜索文本和过滤器的变化
         Publishers.CombineLatest($searchText, $selectedFilter)
             .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
             .sink { [weak self] text, filter in
-                self?.performSearch(text: text, filter: filter)
-                addSearchHistory(text: text, filter: filter)
+                guard let self = self else { return }
+                self.performSearch(text: text, filter: filter)
+                
+                // 只有当搜索文本不为空时才添加到历史记录
+                if !text.isEmpty {
+                    self.addSearchHistory(text: text, filter: filter)
+                }
             }
             .store(in: &cancellables)
     }

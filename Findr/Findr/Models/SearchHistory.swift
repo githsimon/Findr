@@ -5,11 +5,17 @@ struct SearchHistory: Identifiable, Codable {
     let keyword: String
     let filter: SearchFilter
     let date: Date
-}
-
-enum SearchFilter: String, CaseIterable, Codable {
-    case all = "全部"
-    case name = "名称"
-    case location = "位置"
-    case tags = "标签"
+    
+    init(keyword: String, filter: SearchFilter, date: Date = Date()) {
+        self.keyword = keyword
+        self.filter = filter
+        self.date = date
+    }
+    
+    var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
+    }
 }
