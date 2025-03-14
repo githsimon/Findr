@@ -17,6 +17,9 @@ struct LocationsView: View {
     @State private var showingAddLocation = false
     @State private var selectedLocation: Location?
     @State private var showingLocationDetail = false
+    @State private var showingDeleteAlert = false
+    @State private var locationToDelete: Location?
+    @State private var isEditMode = false
     
     var body: some View {
         NavigationStack {
@@ -33,13 +36,55 @@ struct LocationsView: View {
                 .padding(.horizontal)
                 
                 if locations.isEmpty {
-                    ContentUnavailableView("暂无位置", systemImage: "mappin.slash", description: Text("添加一些位置来开始整理物品"))
-                        .padding(.top, 40)
+                    VStack(spacing: 20) {
+                        ContentUnavailableView("暂无位置", systemImage: "mappin.slash", description: Text("添加一些位置来开始整理物品"))
+                            .padding(.top, 40)
+                        
+                        // 添加位置按钮
+                        Button(action: {
+                            showingAddLocation = true
+                        }) {
+                            HStack {
+                                Image(systemName: "plus.circle.fill")
+                                Text("添加新位置")
+                            }
+                            .font(.headline)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                        }
+                    }
                 } else {
                     List {
                         ForEach(filteredLocations) { location in
                             LocationRow(location: location, itemCount: itemsInLocation(location))
                                 .contentShape(Rectangle())
+                                .swipeActions(edge: .trailing) {
+                                    Button(role: .destructive) {
+                                        locationToDelete = location
+                                        showingDeleteAlert = true
+                                    } label: {
+                                        Label("删除", systemImage: "trash")
+                                    }
+                                    
+                                    Button {
+                                        selectedLocation = location
+                                        showingLocationDetail = true
+                                    } label: {
+                                        Label("查看", systemImage: "eye")
+                                    }
+                                    .tint(.blue)
+                                }
+                                .swipeActions(edge: .leading) {
+                                    Button {
+                                        selectedLocation = location
+                                        showingLocationDetail = true
+                                    } label: {
+                                        Label("编辑", systemImage: "pencil")
+                                    }
+                                    .tint(.orange)
+                                }
                                 .onTapGesture {
                                     selectedLocation = location
                                     showingLocationDetail = true
@@ -50,14 +95,41 @@ struct LocationsView: View {
                     .listStyle(.plain)
                 }
             }
+            .overlay(alignment: .bottom) {
+                if !locations.isEmpty {
+                    Button(action: {
+                        showingAddLocation = true
+                    }) {
+                        HStack {
+                            Image(systemName: "plus.circle.fill")
+                            Text("添加新位置")
+                        }
+                        .font(.headline)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .shadow(radius: 3)
+                    }
+                    .padding(.bottom, 20)
+                }
+            }
             .navigationTitle("位置管理")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
                         Button("添加位置", action: { showingAddLocation = true })
-                        Button("编辑", action: {})
+                        Button(isEditMode ? "完成" : "编辑", action: { isEditMode.toggle() })
                     } label: {
                         Image(systemName: "ellipsis")
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        showingAddLocation = true
+                    }) {
+                        Image(systemName: "plus")
                     }
                 }
             }
@@ -71,6 +143,22 @@ struct LocationsView: View {
                     LocationDetailView(location: location)
                 }
             }
+            .alert("确认删除", isPresented: $showingDeleteAlert) {
+                Button("取消", role: .cancel) {}
+                Button("删除", role: .destructive) {
+                    if let location = locationToDelete {
+                        deleteLocation(location)
+                        locationToDelete = nil
+                    }
+                }
+            } message: {
+                if let location = locationToDelete {
+                    Text("确定要删除位置 \(location.name) 吗？此操作不可撤销，该位置下的所有物品将失去位置信息。")
+                } else {
+                    Text("确定要删除此位置吗？")
+                }
+            }
+            .environment(\.editMode, isEditMode ? .constant(.active) : .constant(.inactive))
         }
     }
     
@@ -89,8 +177,18 @@ struct LocationsView: View {
     private func deleteLocations(at offsets: IndexSet) {
         for index in offsets {
             let location = locations[index]
-            modelContext.delete(location)
+            deleteLocation(location)
         }
+    }
+    
+    private func deleteLocation(_ location: Location) {
+        // 先处理与该位置关联的物品
+        for item in items.filter({ $0.location?.id == location.id }) {
+            item.location = nil
+        }
+        // 删除位置
+        modelContext.delete(location)
+        try? modelContext.save()
     }
 }
 
@@ -265,14 +363,24 @@ struct AddLocationView: View {
     }
     
     private func saveLocation() {
+        // 验证数据
+        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedName.isEmpty else {
+            return
+        }
+        
+        // 创建新位置
         let newLocation = Location(
-            name: name,
+            name: trimmedName,
             icon: icon,
             iconColor: iconColor,
             sublocations: sublocations
         )
         
+        // 保存到数据库
         modelContext.insert(newLocation)
+        try? modelContext.save()
+        
         dismiss()
     }
 }
@@ -281,8 +389,10 @@ struct LocationDetailView: View {
     let location: Location
     
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
     @Query private var items: [Item]
     @State private var showingEditLocation = false
+    @State private var showingDeleteAlert = false
     
     var body: some View {
         NavigationStack {
@@ -368,11 +478,32 @@ struct LocationDetailView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("编辑") {
-                        showingEditLocation = true
+                    Menu {
+                        Button("编辑") {
+                            showingEditLocation = true
+                        }
+                        Button("删除", role: .destructive) {
+                            showingDeleteAlert = true
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis")
                     }
-                    .foregroundColor(.blue)
                 }
+            }
+            .alert("确认删除", isPresented: $showingDeleteAlert) {
+                Button("取消", role: .cancel) {}
+                Button("删除", role: .destructive) {
+                    // 先处理与该位置关联的物品
+                    for item in items.filter({ $0.location?.id == location.id }) {
+                        item.location = nil
+                    }
+                    // 删除位置
+                    modelContext.delete(location)
+                    try? modelContext.save()
+                    dismiss()
+                }
+            } message: {
+                Text("确定要删除位置 \(location.name) 吗？此操作不可撤销，该位置下的所有物品将失去位置信息。")
             }
             .sheet(isPresented: $showingEditLocation) {
                 EditLocationView(location: location)
@@ -522,10 +653,19 @@ struct EditLocationView: View {
     }
     
     private func updateLocation() {
+        // 验证数据
+        guard !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return
+        }
+        
+        // 更新位置信息
         location.name = name
         location.icon = icon
         location.iconColor = iconColor
         location.sublocations = sublocations
+        
+        // 保存到数据库
+        try? modelContext.save()
         
         dismiss()
     }
