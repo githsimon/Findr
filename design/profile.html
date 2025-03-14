@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Findr - 个人中心</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+            background-color: #f2f2f7;
+            color: #000;
+        }
+        .nav-title {
+            font-size: 17px;
+            font-weight: 600;
+        }
+        .profile-header {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+            object-fit: cover;
+            border: 3px solid #f2f2f7;
+        }
+        .menu-card {
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .menu-item {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #f2f2f7;
+        }
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        .menu-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: white;
+        }
+        .badge {
+            background-color: #ff3b30;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="p-4">
+        <!-- Navigation -->
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="nav-title">个人中心</h1>
+            <button class="text-blue-500">
+                <i class="fas fa-cog text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Profile Header -->
+        <div class="profile-header mb-6">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80" alt="用户头像" class="avatar">
+            <div class="ml-4">
+                <h2 class="text-xl font-bold mb-1">李小花</h2>
+                <p class="text-gray-500 mb-2">lixiaohua@example.com</p>
+                <button class="text-blue-500 text-sm flex items-center">
+                    编辑个人资料
+                    <i class="fas fa-chevron-right ml-1 text-xs text-gray-400"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="grid grid-cols-3 gap-3 mb-6">
+            <div class="bg-white rounded-xl p-3 text-center">
+                <div class="font-bold text-xl mb-1">42</div>
+                <div class="text-gray-500 text-sm">总物品</div>
+            </div>
+            <div class="bg-white rounded-xl p-3 text-center">
+                <div class="font-bold text-xl mb-1">8</div>
+                <div class="text-gray-500 text-sm">位置</div>
+            </div>
+            <div class="bg-white rounded-xl p-3 text-center">
+                <div class="font-bold text-xl mb-1">12</div>
+                <div class="text-gray-500 text-sm">分类</div>
+            </div>
+        </div>
+
+        <!-- Menu Section 1 -->
+        <div class="menu-card mb-6">
+            <div class="menu-item">
+                <div class="menu-icon bg-purple-500">
+                    <i class="fas fa-history"></i>
+                </div>
+                <div class="flex-1">
+                    <div>最近活动</div>
+                </div>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon bg-green-500">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="flex-1">
+                    <div>收藏物品</div>
+                </div>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon bg-blue-500">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="flex-1">
+                    <div>提醒</div>
+                </div>
+                <div class="flex items-center">
+                    <span class="badge mr-2">2</span>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Section 2 -->
+        <div class="menu-card mb-6">
+            <div class="menu-item">
+                <div class="menu-icon bg-yellow-500">
+                    <i class="fas fa-tag"></i>
+                </div>
+                <div class="flex-1">
+                    <div>标签管理</div>
+                </div>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon bg-red-500">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <div class="flex-1">
+                    <div>外观设置</div>
+                </div>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+        </div>
+
+        <!-- Account Settings -->
+        <div class="menu-card">
+            <div class="menu-item">
+                <div class="menu-icon bg-gray-500">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="flex-1">
+                    <div>账号信息</div>
+                </div>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon bg-indigo-500">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="flex-1">
+                    <div>隐私设置</div>
+                </div>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon bg-teal-500">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <div class="flex-1">
+                    <div>帮助与反馈</div>
+                </div>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon bg-red-500">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="text-red-500">退出登录</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Edit Modal (Hidden by default, shown for demonstration) -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-xl w-5/6 p-4">
+            <h2 class="text-lg font-bold mb-4">编辑个人资料</h2>
+            
+            <div class="flex justify-center mb-4">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80" alt="用户头像" class="w-24 h-24 rounded-full object-cover">
+                    <button class="absolute bottom-0 right-0 bg-blue-500 w-8 h-8 rounded-full flex items-center justify-center text-white">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">昵称</label>
+                <input type="text" class="w-full border border-gray-300 rounded-lg p-2" value="李小花">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">邮箱</label>
+                <input type="email" class="w-full border border-gray-300 rounded-lg p-2" value="lixiaohua@example.com">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">性别</label>
+                <div class="flex space-x-4">
+                    <label class="flex items-center">
+                        <input type="radio" name="gender" class="mr-2" checked>
+                        <span>女</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="gender" class="mr-2">
+                        <span>男</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="gender" class="mr-2">
+                        <span>不愿透露</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="flex space-x-2">
+                <button class="flex-1 py-2 border border-gray-300 rounded-lg">取消</button>
+                <button class="flex-1 py-2 bg-blue-500 text-white rounded-lg">保存</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
