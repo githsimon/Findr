@@ -52,6 +52,7 @@
 		DB2561FAE7303D2CAFC1F698 /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
 		E18324C1758971E1770C19B1 /* Findr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Findr-Bridging-Header.h"; sourceTree = "<group>"; };
 		FF3DCEAB678FBE3A209A4FD3 /* TagInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagInputView.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6A7B8C9D0E1F2 /* SearchHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -219,6 +220,7 @@
 				8ED9FA0B35FB20C9A41DD83B /* FindrApp.swift in Sources */,
 				3657F0FB2B684BE8324E464B /* FlowLayout.swift in Sources */,
 				1481E4EB7798506A46CF1C1D /* ItemDetailView.swift in Sources */,
+				A3B4C5D6E7F8A9B0C1D2E3F4 /* SearchHistory.swift in Sources */,
 				DCCFEA028E3360209A19559A /* ItemListView.swift in Sources */,
 				333BA90132FA99F62E25CA1A /* ItemListViewModel.swift in Sources */,
 				CE616F9D05933D16E89EE58F /* Location.swift in Sources */,

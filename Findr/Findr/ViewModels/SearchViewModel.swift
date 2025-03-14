@@ -1,6 +1,5 @@
 import SwiftUI
 import Combine
-import SearchHistory
 
 @MainActor
 final class SearchViewModel: ObservableObject {
