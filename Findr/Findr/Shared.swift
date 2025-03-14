@@ -50,7 +50,7 @@ class ItemDetailViewModel: ObservableObject {
 }
 
 // MARK: - Enums
-enum SearchFilter: String, CaseIterable, Identifiable {
+enum SearchFilter: String, CaseIterable, Identifiable, Codable {
     case all
     case name
     case location

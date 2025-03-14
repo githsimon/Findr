@@ -18,6 +18,7 @@
 		5411538A4FD7EB44E5E400D7 /* LocationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC71A9B94965344360535BE /* LocationPickerView.swift */; };
 		603F7E87476844D1B49DB4A0 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC8CB7DEE22A845E4796C25 /* SearchView.swift */; };
 		61BC429C2D83D53400AC871A /* SearchHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BC429B2D83D53400AC871A /* SearchHistory.swift */; };
+		61BC429E2D83D8D800AC871A /* SearchHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BC429D2D83D8D800AC871A /* SearchHistoryView.swift */; };
 		61F9DD042D83D42C0058E1F9 /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F9DD032D83D42C0058E1F9 /* ItemDetailView.swift */; };
 		743FBC53E0C5E3404A2699AB /* LocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B252FB8C9B7859AC5808757 /* LocationDetailView.swift */; };
 		8ED9FA0B35FB20C9A41DD83B /* FindrApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52970218AFBFB22BF071BA3A /* FindrApp.swift */; };
@@ -39,6 +40,7 @@
 		5B252FB8C9B7859AC5808757 /* LocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailView.swift; sourceTree = "<group>"; };
 		5DC71A9B94965344360535BE /* LocationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerView.swift; sourceTree = "<group>"; };
 		61BC429B2D83D53400AC871A /* SearchHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistory.swift; sourceTree = "<group>"; };
+		61BC429D2D83D8D800AC871A /* SearchHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryView.swift; sourceTree = "<group>"; };
 		61F9DD032D83D42C0058E1F9 /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
 		73C1D0A7BA582CE86DB85C1B /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
 		7FA6A2E61D4AB57BF1AA03AD /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				3DC8CB7DEE22A845E4796C25 /* SearchView.swift */,
+				61BC429D2D83D8D800AC871A /* SearchHistoryView.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -223,6 +226,7 @@
 				8ED9FA0B35FB20C9A41DD83B /* FindrApp.swift in Sources */,
 				3657F0FB2B684BE8324E464B /* FlowLayout.swift in Sources */,
 				DCCFEA028E3360209A19559A /* ItemListView.swift in Sources */,
+				61BC429E2D83D8D800AC871A /* SearchHistoryView.swift in Sources */,
 				333BA90132FA99F62E25CA1A /* ItemListViewModel.swift in Sources */,
 				61BC429C2D83D53400AC871A /* SearchHistory.swift in Sources */,
 				CE616F9D05933D16E89EE58F /* Location.swift in Sources */,
