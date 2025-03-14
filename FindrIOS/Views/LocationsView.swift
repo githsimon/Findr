@@ -2,9 +2,10 @@ import SwiftUI
 
 struct LocationsView: View {
     @EnvironmentObject var locationStore: LocationStore
+    @EnvironmentObject var itemStore: ItemStore
     @State private var searchText = ""
     @State private var showingAddLocation = false
-    @State private var selectedLocation: Location?
+    @State private var selectedLocation: Location? = nil
     
     var filteredLocations: [Location] {
         if searchText.isEmpty {
@@ -31,51 +32,87 @@ struct LocationsView: View {
                 .padding(.horizontal)
                 .padding(.top, 8)
                 
+                // Locations List
                 List {
                     ForEach(filteredLocations) { location in
-                        Button(action: {
-                            selectedLocation = location
-                        }) {
-                            LocationRowView(location: location)
-                        }
-                        .buttonStyle(PlainButtonStyle())
+                        LocationRow(location: location, itemStore: itemStore)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                selectedLocation = location
+                            }
                     }
-                    .onDelete(perform: deleteLocation)
+                    .onDelete { indexSet in
+                        locationStore.deleteLocation(at: indexSet)
+                    }
                 }
-                .listStyle(InsetGroupedListStyle())
+                .listStyle(PlainListStyle())
             }
             .navigationTitle("位置管理")
-            .navigationBarItems(trailing: Button(action: {
-                showingAddLocation = true
-            }) {
-                Image(systemName: "plus")
-                    .foregroundColor(.blue)
-            })
+            .navigationBarItems(trailing:
+                Menu {
+                    Button(action: {
+                        showingAddLocation = true
+                    }) {
+                        Label("添加位置", systemImage: "plus")
+                    }
+                    
+                    Button(action: {
+                        // Sort action
+                    }) {
+                        Label("排序", systemImage: "arrow.up.arrow.down")
+                    }
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .foregroundColor(.blue)
+                }
+            )
             .sheet(isPresented: $showingAddLocation) {
                 AddLocationView()
             }
             .sheet(item: $selectedLocation) { location in
                 LocationDetailView(location: location)
             }
+            .overlay(
+                VStack {
+                    Spacer()
+                    
+                    Button(action: {
+                        showingAddLocation = true
+                    }) {
+                        ZStack {
+                            Circle()
+                                .fill(Color.blue)
+                                .frame(width: 56, height: 56)
+                                .shadow(color: Color.black.opacity(0.3), radius: 4, x: 0, y: 2)
+                            
+                            Image(systemName: "plus")
+                                .font(.system(size: 22, weight: .bold))
+                                .foregroundColor(.white)
+                        }
+                    }
+                    .padding(.bottom, 16)
+                }
+            )
         }
-    }
-    
-    func deleteLocation(at offsets: IndexSet) {
-        locationStore.deleteLocation(at: offsets)
     }
 }
 
-struct LocationRowView: View {
+struct LocationRow: View {
     let location: Location
+    let itemStore: ItemStore
+    
+    var itemCount: Int {
+        itemStore.getItemsByLocation(locationId: location.id).count
+    }
     
     var body: some View {
         HStack {
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(location.colorValue)
+                    .fill(location.icon.color)
                     .frame(width: 40, height: 40)
                 
-                Image(systemName: location.icon)
+                Image(systemName: location.icon.rawValue)
                     .foregroundColor(.white)
             }
             
@@ -86,12 +123,12 @@ struct LocationRowView: View {
                     
                     Spacer()
                     
-                    Text("\(location.itemCount) 件物品")
+                    Text("\(itemCount) 件物品")
                         .font(.caption)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(10)
+                        .background(Color(.systemGray5))
+                        .cornerRadius(16)
                 }
                 
                 Text("\(location.sublocations.count) 个子位置")
@@ -100,34 +137,31 @@ struct LocationRowView: View {
             }
             .padding(.leading, 8)
             
-            Spacer()
-            
             Image(systemName: "chevron.right")
+                .font(.caption)
                 .foregroundColor(.gray)
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, 8)
     }
 }
 
 struct LocationDetailView: View {
-    @EnvironmentObject var locationStore: LocationStore
-    @EnvironmentObject var itemStore: ItemStore
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var itemStore: ItemStore
+    @EnvironmentObject var locationStore: LocationStore
+    let location: Location
     @State private var showingAddSublocation = false
-    @State private var location: Location
-    
-    init(location: Location) {
-        _location = State(initialValue: location)
-    }
+    @State private var newSublocationName = ""
+    @State private var showingEditMode = false
     
     var locationItems: [Item] {
-        itemStore.getItemsByLocation(locationID: location.id)
+        itemStore.getItemsByLocation(locationId: location.id)
     }
     
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 20) {
                     // Sublocations Section
                     VStack(alignment: .leading) {
                         HStack {
@@ -140,8 +174,7 @@ struct LocationDetailView: View {
                             Button(action: {
                                 showingAddSublocation = true
                             }) {
-                                Label("添加", systemImage: "plus")
-                                    .font(.caption)
+                                Image(systemName: "plus")
                                     .foregroundColor(.blue)
                             }
                         }
@@ -149,28 +182,33 @@ struct LocationDetailView: View {
                         
                         if location.sublocations.isEmpty {
                             Text("暂无子位置")
-                                .font(.subheadline)
                                 .foregroundColor(.gray)
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(Color(.systemGray6))
-                                .cornerRadius(10)
-                                .padding(.horizontal)
                         } else {
                             ForEach(location.sublocations) { sublocation in
                                 HStack {
                                     Text(sublocation.name)
-                                        .font(.subheadline)
                                     
                                     Spacer()
                                     
-                                    Text("\(sublocation.itemCount) 件物品")
+                                    let sublocationItems = locationItems.filter { $0.specificLocation == sublocation.name }
+                                    Text("\(sublocationItems.count) 件物品")
                                         .font(.caption)
                                         .foregroundColor(.gray)
+                                    
+                                    if showingEditMode {
+                                        Button(action: {
+                                            locationStore.removeSublocation(from: location.id, sublocationId: sublocation.id)
+                                        }) {
+                                            Image(systemName: "trash")
+                                                .foregroundColor(.red)
+                                        }
+                                    }
                                 }
                                 .padding()
                                 .background(Color(.systemGray6))
-                                .cornerRadius(10)
+                                .cornerRadius(8)
                                 .padding(.horizontal)
                             }
                         }
@@ -185,18 +223,14 @@ struct LocationDetailView: View {
                         
                         if locationItems.isEmpty {
                             Text("暂无物品")
-                                .font(.subheadline)
                                 .foregroundColor(.gray)
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(Color(.systemGray6))
-                                .cornerRadius(10)
-                                .padding(.horizontal)
                         } else {
                             ForEach(locationItems.prefix(3)) { item in
                                 HStack {
                                     ZStack {
-                                        RoundedRectangle(cornerRadius: 8)
+                                        RoundedRectangle(cornerRadius: 6)
                                             .fill(item.category.color.opacity(0.2))
                                             .frame(width: 40, height: 40)
                                         
@@ -209,11 +243,9 @@ struct LocationDetailView: View {
                                             .font(.subheadline)
                                             .fontWeight(.medium)
                                         
-                                        if let sublocation = item.sublocationName {
-                                            Text(sublocation + (item.specificLocation != nil ? " - \(item.specificLocation!)" : ""))
-                                                .font(.caption)
-                                                .foregroundColor(.gray)
-                                        }
+                                        Text(item.specificLocation)
+                                            .font(.caption)
+                                            .foregroundColor(.gray)
                                     }
                                     .padding(.leading, 8)
                                     
@@ -221,7 +253,7 @@ struct LocationDetailView: View {
                                 }
                                 .padding()
                                 .background(Color(.systemGray6))
-                                .cornerRadius(10)
+                                .cornerRadius(8)
                                 .padding(.horizontal)
                             }
                         }
@@ -231,15 +263,31 @@ struct LocationDetailView: View {
             }
             .navigationTitle(location.name)
             .navigationBarItems(
-                leading: Button("关闭") {
+                leading: Button(action: {
                     presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("关闭")
                 },
-                trailing: Button("编辑") {
-                    // Edit location action
+                trailing: Button(action: {
+                    showingEditMode.toggle()
+                }) {
+                    Text(showingEditMode ? "完成" : "编辑")
                 }
             )
-            .sheet(isPresented: $showingAddSublocation) {
-                AddSublocationView(location: $location)
+            .alert(isPresented: $showingAddSublocation) {
+                Alert(
+                    title: Text("添加子位置"),
+                    message: Text("请输入子位置名称"),
+                    TextField("名称", text: $newSublocationName),
+                    primaryButton: .default(Text("添加")) {
+                        if !newSublocationName.isEmpty {
+                            let newSublocation = Sublocation(name: newSublocationName)
+                            locationStore.addSublocation(to: location.id, sublocation: newSublocation)
+                            newSublocationName = ""
+                        }
+                    },
+                    secondaryButton: .cancel()
+                )
             }
         }
     }
@@ -248,152 +296,97 @@ struct LocationDetailView: View {
 struct AddLocationView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var locationStore: LocationStore
-    
-    @State private var name = ""
-    @State private var selectedIcon = "house.fill"
-    @State private var selectedColor = "blue"
-    
-    let icons = [
-        "house.fill", "bed.double.fill", "sofa.fill", "fork.knife", 
-        "book.fill", "archivebox.fill", "car.fill", "briefcase.fill",
-        "desktopcomputer", "gamecontroller.fill", "tray.fill", "leaf.fill"
-    ]
-    
-    let colors = [
-        "red", "blue", "green", "purple", "yellow", 
-        "orange", "gray", "indigo", "teal"
-    ]
+    @State private var locationName = ""
+    @State private var selectedIcon: Location.LocationIcon = .bedroom
+    @State private var sublocations: [String] = [""]
     
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("位置信息")) {
-                    TextField("位置名称", text: $name)
-                }
-                
-                Section(header: Text("图标")) {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 60))], spacing: 20) {
-                        ForEach(icons, id: \.self) { icon in
-                            ZStack {
-                                Circle()
-                                    .fill(Color.blue.opacity(selectedIcon == icon ? 0.2 : 0))
-                                    .frame(width: 50, height: 50)
-                                
-                                Image(systemName: icon)
-                                    .font(.system(size: 24))
-                                    .foregroundColor(.blue)
-                            }
-                            .onTapGesture {
-                                selectedIcon = icon
-                            }
-                        }
-                    }
-                    .padding(.vertical)
-                }
-                
-                Section(header: Text("颜色")) {
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 60))], spacing: 20) {
-                        ForEach(colors, id: \.self) { color in
-                            Circle()
-                                .fill(colorFromString(color))
-                                .frame(width: 30, height: 30)
-                                .overlay(
+                    TextField("位置名称", text: $locationName)
+                    
+                    Picker("图标", selection: $selectedIcon) {
+                        ForEach(Location.LocationIcon.allCases, id: \.self) { icon in
+                            HStack {
+                                ZStack {
                                     Circle()
-                                        .stroke(Color.blue, lineWidth: selectedColor == color ? 2 : 0)
-                                        .padding(-4)
-                                )
-                                .onTapGesture {
-                                    selectedColor = color
+                                        .fill(icon.color)
+                                        .frame(width: 24, height: 24)
+                                    
+                                    Image(systemName: icon.rawValue)
+                                        .font(.system(size: 12))
+                                        .foregroundColor(.white)
                                 }
+                                
+                                Text(icon.displayName)
+                            }
+                            .tag(icon)
                         }
                     }
-                    .padding(.vertical)
+                }
+                
+                Section(header: Text("子位置")) {
+                    ForEach(0..<sublocations.count, id: \.self) { index in
+                        HStack {
+                            TextField("子位置名称", text: $sublocations[index])
+                            
+                            if sublocations.count > 1 {
+                                Button(action: {
+                                    sublocations.remove(at: index)
+                                }) {
+                                    Image(systemName: "minus.circle.fill")
+                                        .foregroundColor(.red)
+                                }
+                            }
+                        }
+                    }
+                    
+                    Button(action: {
+                        sublocations.append("")
+                    }) {
+                        HStack {
+                            Image(systemName: "plus.circle.fill")
+                            Text("添加子位置")
+                        }
+                    }
                 }
             }
             .navigationTitle("添加位置")
             .navigationBarItems(
-                leading: Button("取消") {
+                leading: Button(action: {
                     presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("取消")
                 },
-                trailing: Button("保存") {
+                trailing: Button(action: {
                     saveLocation()
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("保存")
                 }
-                .disabled(name.isEmpty)
+                .disabled(locationName.isEmpty)
             )
         }
     }
     
-    func colorFromString(_ colorName: String) -> Color {
-        switch colorName {
-        case "red": return .red
-        case "blue": return .blue
-        case "green": return .green
-        case "purple": return .purple
-        case "yellow": return .yellow
-        case "orange": return .orange
-        case "gray": return .gray
-        case "indigo": return .indigo
-        case "teal": return .teal
-        default: return .blue
-        }
-    }
-    
-    func saveLocation() {
+    private func saveLocation() {
+        let filteredSublocations = sublocations
+            .filter { !$0.isEmpty }
+            .map { Sublocation(name: $0) }
+        
         let newLocation = Location(
-            name: name,
+            name: locationName,
             icon: selectedIcon,
-            iconColor: selectedColor
+            sublocations: filteredSublocations
         )
         
         locationStore.addLocation(newLocation)
-        presentationMode.wrappedValue.dismiss()
     }
 }
 
-struct AddSublocationView: View {
-    @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var locationStore: LocationStore
-    @Binding var location: Location
-    
-    @State private var name = ""
-    
-    var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("子位置信息")) {
-                    TextField("子位置名称", text: $name)
-                }
-            }
-            .navigationTitle("添加子位置")
-            .navigationBarItems(
-                leading: Button("取消") {
-                    presentationMode.wrappedValue.dismiss()
-                },
-                trailing: Button("保存") {
-                    saveSublocation()
-                }
-                .disabled(name.isEmpty)
-            )
-        }
-    }
-    
-    func saveSublocation() {
-        let newSublocation = Sublocation(name: name)
-        
-        // Update local state
-        location.sublocations.append(newSublocation)
-        
-        // Update in store
-        locationStore.updateLocation(location)
-        
-        presentationMode.wrappedValue.dismiss()
-    }
-}
-
-struct LocationsView_Previews: PreviewProvider {
-    static var previews: some View {
-        LocationsView()
-            .environmentObject(LocationStore())
-            .environmentObject(ItemStore())
-    }
+#Preview {
+    LocationsView()
+        .environmentObject(LocationStore())
+        .environmentObject(ItemStore())
 }

@@ -1,66 +1,75 @@
 import SwiftUI
+import PhotosUI
 
 struct AddItemView: View {
-    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var itemStore: ItemStore
     @EnvironmentObject var locationStore: LocationStore
-    
-    @State private var name = ""
-    @State private var selectedCategory: Category = .clothing
-    @State private var selectedLocationID: UUID?
-    @State private var sublocationName = ""
+    @State private var itemName = ""
+    @State private var selectedCategory: Item.Category = .clothing
+    @State private var selectedLocationId: UUID? = nil
     @State private var specificLocation = ""
     @State private var notes = ""
-    @State private var tagInput = ""
     @State private var tags: [String] = []
-    @State private var showingImagePicker = false
-    @State private var inputImage: UIImage?
-    @State private var imageFileName: String?
+    @State private var tagInput = ""
+    @State private var selectedImage: UIImage?
+    @State private var photoPickerItem: PhotosPickerItem?
+    @State private var showingAlert = false
+    @State private var alertMessage = ""
     
     var body: some View {
         NavigationView {
             Form {
                 // Photo Section
                 Section(header: Text("物品照片")) {
-                    Button(action: {
-                        showingImagePicker = true
-                    }) {
-                        HStack {
-                            Spacer()
-                            
-                            if let inputImage = inputImage {
-                                Image(uiImage: inputImage)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 150, height: 150)
-                                    .cornerRadius(8)
-                            } else {
+                    VStack {
+                        if let selectedImage = selectedImage {
+                            Image(uiImage: selectedImage)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxHeight: 200)
+                                .cornerRadius(10)
+                        } else {
+                            PhotosPicker(selection: $photoPickerItem, matching: .images) {
                                 VStack {
-                                    Image(systemName: "camera.fill")
+                                    Image(systemName: "camera")
                                         .font(.system(size: 30))
                                         .foregroundColor(.gray)
-                                        .padding(.bottom, 8)
-                                    
                                     Text("点击添加照片")
                                         .foregroundColor(.gray)
                                 }
-                                .frame(width: 150, height: 150)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 160)
                                 .background(Color(.systemGray6))
-                                .cornerRadius(8)
+                                .cornerRadius(10)
                             }
-                            
-                            Spacer()
                         }
-                        .padding(.vertical, 8)
+                        
+                        if selectedImage != nil {
+                            Button("移除照片") {
+                                selectedImage = nil
+                                photoPickerItem = nil
+                            }
+                            .foregroundColor(.red)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .padding(.top, 8)
+                        }
+                    }
+                    .onChange(of: photoPickerItem) { newValue in
+                        Task {
+                            if let data = try? await newValue?.loadTransferable(type: Data.self),
+                               let uiImage = UIImage(data: data) {
+                                selectedImage = uiImage
+                            }
+                        }
                     }
                 }
                 
-                // Item Info Section
+                // Item Information
                 Section(header: Text("物品信息")) {
-                    TextField("物品名称", text: $name)
+                    TextField("物品名称", text: $itemName)
                     
                     Picker("分类", selection: $selectedCategory) {
-                        ForEach(Category.allCases) { category in
+                        ForEach(Item.Category.allCases, id: \.self) { category in
                             HStack {
                                 Image(systemName: category.icon)
                                     .foregroundColor(category.color)
@@ -73,33 +82,24 @@ struct AddItemView: View {
                 
                 // Location Section
                 Section(header: Text("存放位置")) {
-                    if locationStore.locations.isEmpty {
-                        Text("请先添加位置")
-                            .foregroundColor(.gray)
+                    Picker("位置", selection: $selectedLocationId) {
+                        Text("选择位置").tag(nil as UUID?)
+                        ForEach(locationStore.locations) { location in
+                            Text(location.name).tag(location.id as UUID?)
+                        }
+                    }
+                    
+                    if let locationId = selectedLocationId,
+                       let location = locationStore.getLocationById(locationId),
+                       !location.sublocations.isEmpty {
+                        Picker("子位置", selection: $specificLocation) {
+                            Text("选择子位置").tag("")
+                            ForEach(location.sublocations) { sublocation in
+                                Text(sublocation.name).tag(sublocation.name)
+                            }
+                        }
                     } else {
-                        Picker("位置", selection: $selectedLocationID) {
-                            Text("请选择位置").tag(nil as UUID?)
-                            ForEach(locationStore.locations) { location in
-                                Text(location.name).tag(location.id as UUID?)
-                            }
-                        }
-                        
-                        if let locationID = selectedLocationID,
-                           let location = locationStore.locations.first(where: { $0.id == locationID }),
-                           !location.sublocations.isEmpty {
-                            Picker("子位置", selection: $sublocationName) {
-                                Text("请选择子位置").tag("")
-                                ForEach(location.sublocations) { sublocation in
-                                    Text(sublocation.name).tag(sublocation.name)
-                                }
-                            }
-                        } else {
-                            TextField("子位置", text: $sublocationName)
-                        }
-                        
                         TextField("具体位置", text: $specificLocation)
-                            .font(.body)
-                            .foregroundColor(.primary)
                     }
                 }
                 
@@ -118,7 +118,6 @@ struct AddItemView: View {
                             Image(systemName: "plus.circle.fill")
                                 .foregroundColor(.blue)
                         }
-                        .disabled(tagInput.isEmpty)
                     }
                     
                     if !tags.isEmpty {
@@ -128,24 +127,21 @@ struct AddItemView: View {
                                     HStack {
                                         Text(tag)
                                             .font(.caption)
-                                            .padding(.leading, 8)
-                                            .padding(.trailing, 0)
                                         
                                         Button(action: {
                                             removeTag(tag)
                                         }) {
                                             Image(systemName: "xmark.circle.fill")
                                                 .font(.caption)
-                                                .foregroundColor(.gray)
                                         }
-                                        .padding(.trailing, 8)
                                     }
+                                    .padding(.horizontal, 10)
                                     .padding(.vertical, 5)
-                                    .background(Color(.systemGray6))
+                                    .background(Color(.systemGray5))
                                     .cornerRadius(15)
                                 }
                             }
-                            .padding(.vertical, 4)
+                            .padding(.vertical, 5)
                         }
                     }
                 }
@@ -153,129 +149,107 @@ struct AddItemView: View {
             .navigationTitle("添加物品")
             .navigationBarItems(
                 leading: Button("取消") {
-                    presentationMode.wrappedValue.dismiss()
+                    clearForm()
                 },
                 trailing: Button("保存") {
                     saveItem()
                 }
-                .disabled(name.isEmpty || selectedLocationID == nil)
+                .disabled(!isFormValid)
             )
-            .sheet(isPresented: $showingImagePicker) {
-                ImagePicker(image: $inputImage)
+            .alert(isPresented: $showingAlert) {
+                Alert(
+                    title: Text("提示"),
+                    message: Text(alertMessage),
+                    dismissButton: .default(Text("确定"))
+                )
             }
         }
     }
     
-    func addTag() {
-        let newTag = tagInput.trimmingCharacters(in: .whitespacesAndNewlines)
-        if !newTag.isEmpty && !tags.contains(newTag) {
-            tags.append(newTag)
+    private var isFormValid: Bool {
+        !itemName.isEmpty && selectedLocationId != nil
+    }
+    
+    private func addTag() {
+        let trimmedTag = tagInput.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !trimmedTag.isEmpty && !tags.contains(trimmedTag) {
+            tags.append(trimmedTag)
             tagInput = ""
         }
     }
     
-    func removeTag(_ tag: String) {
+    private func removeTag(_ tag: String) {
         if let index = tags.firstIndex(of: tag) {
             tags.remove(at: index)
         }
     }
     
-    func saveItem() {
-        guard let locationID = selectedLocationID else { return }
+    private func saveItem() {
+        guard let locationId = selectedLocationId else {
+            alertMessage = "请选择存放位置"
+            showingAlert = true
+            return
+        }
         
-        // Save image if exists
-        if let inputImage = inputImage {
-            imageFileName = saveImage(inputImage)
+        // Save image to documents directory and get filename
+        var imageName: String? = nil
+        if let image = selectedImage {
+            imageName = saveImageToDocuments(image)
         }
         
         let newItem = Item(
-            name: name,
+            name: itemName,
             category: selectedCategory,
-            locationID: locationID,
-            sublocationName: sublocationName.isEmpty ? nil : sublocationName,
-            specificLocation: specificLocation.isEmpty ? nil : specificLocation,
-            notes: notes.isEmpty ? nil : notes,
+            locationId: locationId,
+            specificLocation: specificLocation,
+            notes: notes,
             tags: tags,
-            imageFileName: imageFileName
+            imageName: imageName,
+            dateAdded: Date()
         )
         
         itemStore.addItem(newItem)
+        itemStore.saveItemsToFile() // Save to JSON file
         
-        // Update item count in location
-        if let index = locationStore.locations.firstIndex(where: { $0.id == locationID }) {
-            var updatedLocation = locationStore.locations[index]
-            updatedLocation.itemCount += 1
-            
-            // Update sublocation item count if applicable
-            if !sublocationName.isEmpty {
-                if let sublocationIndex = updatedLocation.sublocations.firstIndex(where: { $0.name == sublocationName }) {
-                    updatedLocation.sublocations[sublocationIndex].itemCount += 1
-                } else {
-                    // Add new sublocation if it doesn't exist
-                    updatedLocation.sublocations.append(Sublocation(name: sublocationName, itemCount: 1))
-                }
-            }
-            
-            locationStore.updateLocation(updatedLocation)
-        }
+        // Show success message
+        alertMessage = "物品已保存"
+        showingAlert = true
         
-        presentationMode.wrappedValue.dismiss()
+        // Clear form
+        clearForm()
     }
     
-    func saveImage(_ image: UIImage) -> String {
-        let fileName = UUID().uuidString
-        let fileURL = getDocumentsDirectory().appendingPathComponent(fileName)
-        
-        if let data = image.jpegData(compressionQuality: 0.8) {
-            try? data.write(to: fileURL)
-            return fileName
-        }
-        
-        return ""
+    private func clearForm() {
+        itemName = ""
+        selectedCategory = .clothing
+        selectedLocationId = nil
+        specificLocation = ""
+        notes = ""
+        tags = []
+        tagInput = ""
+        selectedImage = nil
+        photoPickerItem = nil
     }
     
-    func getDocumentsDirectory() -> URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-    }
-}
-
-struct ImagePicker: UIViewControllerRepresentable {
-    @Binding var image: UIImage?
-    @Environment(\.presentationMode) var presentationMode
-    
-    func makeUIViewController(context: Context) -> UIImagePickerController {
-        let picker = UIImagePickerController()
-        picker.delegate = context.coordinator
-        return picker
-    }
-    
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-    
-    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-        let parent: ImagePicker
+    private func saveImageToDocuments(_ image: UIImage) -> String? {
+        guard let data = image.jpegData(compressionQuality: 0.7) else { return nil }
         
-        init(_ parent: ImagePicker) {
-            self.parent = parent
-        }
+        let filename = UUID().uuidString + ".jpg"
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let fileURL = documentsDirectory.appendingPathComponent(filename)
         
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-            if let image = info[.originalImage] as? UIImage {
-                parent.image = image
-            }
-            
-            parent.presentationMode.wrappedValue.dismiss()
+        do {
+            try data.write(to: fileURL)
+            return filename
+        } catch {
+            print("Error saving image: \(error)")
+            return nil
         }
     }
 }
 
-struct AddItemView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddItemView()
-            .environmentObject(ItemStore())
-            .environmentObject(LocationStore())
-    }
+#Preview {
+    AddItemView()
+        .environmentObject(ItemStore())
+        .environmentObject(LocationStore())
 }

@@ -31,7 +31,9 @@ struct HomeView: View {
                             
                             Spacer()
                             
-                            NavigationLink(destination: Text("所有分类")) {
+                            Button(action: {
+                                // View all categories action
+                            }) {
                                 Text("查看全部")
                                     .font(.subheadline)
                                     .foregroundColor(.blue)
@@ -41,21 +43,8 @@ struct HomeView: View {
                         
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 15) {
-                                ForEach(Category.allCases) { category in
-                                    VStack {
-                                        Circle()
-                                            .fill(category.color.opacity(0.2))
-                                            .frame(width: 64, height: 64)
-                                            .overlay(
-                                                Image(systemName: category.icon)
-                                                    .font(.system(size: 24))
-                                                    .foregroundColor(category.color)
-                                            )
-                                        
-                                        Text(category.rawValue)
-                                            .font(.caption)
-                                            .foregroundColor(.primary)
-                                    }
+                                ForEach(Item.Category.allCases, id: \.self) { category in
+                                    CategoryButton(category: category)
                                 }
                             }
                             .padding(.horizontal)
@@ -69,12 +58,10 @@ struct HomeView: View {
                             .fontWeight(.bold)
                             .padding(.horizontal)
                         
-                        VStack(spacing: 12) {
-                            ForEach(itemStore.getRecentItems()) { item in
-                                ItemCardView(item: item)
-                            }
+                        ForEach(itemStore.getRecentItems()) { item in
+                            ItemCard(item: item)
+                                .padding(.horizontal)
                         }
-                        .padding(.horizontal)
                     }
                     
                     // Statistics
@@ -84,15 +71,15 @@ struct HomeView: View {
                             .fontWeight(.bold)
                             .padding(.horizontal)
                         
-                        HStack(spacing: 12) {
-                            StatCardView(
-                                icon: "cube.box.fill",
+                        HStack(spacing: 15) {
+                            StatisticCard(
+                                icon: "cube",
                                 iconColor: .blue,
                                 title: "总物品",
                                 value: "\(itemStore.items.count)"
                             )
                             
-                            StatCardView(
+                            StatisticCard(
                                 icon: "mappin.and.ellipse",
                                 iconColor: .green,
                                 title: "存放位置",
@@ -105,39 +92,56 @@ struct HomeView: View {
                 .padding(.vertical)
             }
             .navigationTitle("Findr")
-            .navigationBarItems(trailing: Button(action: {
-                // Filter action
-            }) {
-                Image(systemName: "slider.horizontal.3")
-                    .foregroundColor(.blue)
-            })
+            .navigationBarItems(trailing:
+                Button(action: {
+                    // Filter action
+                }) {
+                    Image(systemName: "slider.horizontal.3")
+                        .foregroundColor(.blue)
+                }
+            )
         }
     }
 }
 
-struct ItemCardView: View {
+struct CategoryButton: View {
+    let category: Item.Category
+    
+    var body: some View {
+        VStack {
+            ZStack {
+                Circle()
+                    .fill(category.color.opacity(0.2))
+                    .frame(width: 64, height: 64)
+                
+                Image(systemName: category.icon)
+                    .font(.system(size: 24))
+                    .foregroundColor(category.color)
+            }
+            
+            Text(category.rawValue)
+                .font(.caption)
+                .foregroundColor(.primary)
+        }
+    }
+}
+
+struct ItemCard: View {
     let item: Item
     @EnvironmentObject var locationStore: LocationStore
     
     var locationName: String {
-        if let location = locationStore.locations.first(where: { $0.id == item.locationID }) {
-            if let sublocation = item.sublocationName {
-                if let specific = item.specificLocation {
-                    return "\(location.name) - \(sublocation) - \(specific)"
-                }
-                return "\(location.name) - \(sublocation)"
-            }
-            return location.name
+        if let location = locationStore.getLocationById(item.locationId) {
+            return "\(location.name) - \(item.specificLocation)"
         }
-        return "未知位置"
+        return item.specificLocation
     }
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 6) {
                 Text(item.name)
                     .font(.headline)
-                    .fontWeight(.semibold)
                 
                 HStack {
                     Image(systemName: "mappin.and.ellipse")
@@ -151,30 +155,32 @@ struct ItemCardView: View {
                 
                 Text(item.category.rawValue)
                     .font(.caption)
-                    .padding(.horizontal, 8)
+                    .padding(.horizontal, 12)
                     .padding(.vertical, 4)
                     .background(item.category.color.opacity(0.2))
                     .foregroundColor(item.category.color)
-                    .cornerRadius(10)
+                    .cornerRadius(16)
             }
             
             Spacer()
             
+            // Placeholder for item image
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(Color.gray.opacity(0.2))
-                    .frame(width: 64, height: 64)
                 
-                if item.imageFileName != nil {
-                    Image(systemName: "photo")
-                        .font(.system(size: 24))
-                        .foregroundColor(.gray)
+                if let imageName = item.imageName {
+                    Image(imageName)
+                        .resizable()
+                        .scaledToFill()
                 } else {
                     Image(systemName: item.category.icon)
                         .font(.system(size: 24))
                         .foregroundColor(item.category.color)
                 }
             }
+            .frame(width: 64, height: 64)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
         }
         .padding()
         .background(Color.white)
@@ -183,7 +189,7 @@ struct ItemCardView: View {
     }
 }
 
-struct StatCardView: View {
+struct StatisticCard: View {
     let icon: String
     let iconColor: Color
     let title: String
@@ -209,9 +215,8 @@ struct StatCardView: View {
                     .font(.title2)
                     .fontWeight(.bold)
             }
-            
-            Spacer()
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(Color.white)
         .cornerRadius(12)
@@ -219,10 +224,8 @@ struct StatCardView: View {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-            .environmentObject(ItemStore())
-            .environmentObject(LocationStore())
-    }
+#Preview {
+    HomeView()
+        .environmentObject(ItemStore())
+        .environmentObject(LocationStore())
 }

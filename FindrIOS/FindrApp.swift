@@ -2,14 +2,14 @@ import SwiftUI
 
 @main
 struct FindrApp: App {
-    @StateObject private var locationStore = LocationStore()
     @StateObject private var itemStore = ItemStore()
+    @StateObject private var locationStore = LocationStore()
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(locationStore)
+            MainTabView()
                 .environmentObject(itemStore)
+                .environmentObject(locationStore)
         }
     }
 }
