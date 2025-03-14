@@ -3,39 +3,66 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		BAADBEEF1234567800000001 /* FindrApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAADBEEF1234567800000002 /* FindrApp.swift */; };
-		BAADBEEF1234567800000003 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAADBEEF1234567800000004 /* MainTabView.swift */; };
-		BAADBEEF1234567800000005 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAADBEEF1234567800000006 /* HomeView.swift */; };
-		BAADBEEF1234567800000007 /* LocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAADBEEF1234567800000008 /* LocationsView.swift */; };
-		BAADBEEF1234567800000009 /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAADBEEF1234567800000010 /* AddItemView.swift */; };
-		BAADBEEF1234567800000011 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAADBEEF1234567800000012 /* ProfileView.swift */; };
-		BAADBEEF1234567800000013 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAADBEEF1234567800000014 /* Item.swift */; };
-		BAADBEEF1234567800000015 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAADBEEF1234567800000016 /* Location.swift */; };
-		BAADBEEF1234567800000017 /* ItemStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAADBEEF1234567800000018 /* ItemStore.swift */; };
-		BAADBEEF1234567800000019 /* LocationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAADBEEF1234567800000020 /* LocationStore.swift */; };
-/* End PBXBuildFile section */
+/* Begin PBXContainerItemProxy section */
+		612172A52D84495400070978 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6121728A2D84495300070978 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 612172912D84495300070978;
+			remoteInfo = FindrIOS;
+		};
+		612172AF2D84495400070978 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6121728A2D84495300070978 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 612172912D84495300070978;
+			remoteInfo = FindrIOS;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		BAADBEEF1234567800000000 /* FindrIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FindrIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BAADBEEF1234567800000002 /* FindrApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindrApp.swift; sourceTree = "<group>"; };
-		BAADBEEF1234567800000004 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		BAADBEEF1234567800000006 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		BAADBEEF1234567800000008 /* LocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsView.swift; sourceTree = "<group>"; };
-		BAADBEEF1234567800000010 /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
-		BAADBEEF1234567800000012 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		BAADBEEF1234567800000014 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
-		BAADBEEF1234567800000016 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
-		BAADBEEF1234567800000018 /* ItemStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemStore.swift; sourceTree = "<group>"; };
-		BAADBEEF1234567800000020 /* LocationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationStore.swift; sourceTree = "<group>"; };
-		BAADBEEF1234567800000021 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		612172922D84495300070978 /* FindrIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FindrIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		612172A42D84495400070978 /* FindrIOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FindrIOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		612172AE2D84495400070978 /* FindrIOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FindrIOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		612172942D84495300070978 /* FindrIOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = FindrIOS;
+			sourceTree = "<group>";
+		};
+		612172A72D84495400070978 /* FindrIOSTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = FindrIOSTests;
+			sourceTree = "<group>";
+		};
+		612172B12D84495400070978 /* FindrIOSUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = FindrIOSUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
-		BAADBEEF1234567800000022 /* Frameworks */ = {
+		6121728F2D84495300070978 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		612172A12D84495400070978 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		612172AB2D84495400070978 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -45,111 +72,157 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		BAADBEEF1234567800000023 /* Products */ = {
+		612172892D84495300070978 = {
 			isa = PBXGroup;
 			children = (
-				BAADBEEF1234567800000000 /* FindrIOS.app */,
+				612172942D84495300070978 /* FindrIOS */,
+				612172A72D84495400070978 /* FindrIOSTests */,
+				612172B12D84495400070978 /* FindrIOSUITests */,
+				612172932D84495300070978 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		612172932D84495300070978 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				612172922D84495300070978 /* FindrIOS.app */,
+				612172A42D84495400070978 /* FindrIOSTests.xctest */,
+				612172AE2D84495400070978 /* FindrIOSUITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		BAADBEEF1234567800000024 /* FindrIOS */ = {
-			isa = PBXGroup;
-			children = (
-				BAADBEEF1234567800000002 /* FindrApp.swift */,
-				BAADBEEF1234567800000025 /* Views */,
-				BAADBEEF1234567800000026 /* Models */,
-				BAADBEEF1234567800000021 /* Info.plist */,
-			);
-			path = FindrIOS;
-			sourceTree = "<group>";
-		};
-		BAADBEEF1234567800000025 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				BAADBEEF1234567800000004 /* MainTabView.swift */,
-				BAADBEEF1234567800000006 /* HomeView.swift */,
-				BAADBEEF1234567800000008 /* LocationsView.swift */,
-				BAADBEEF1234567800000010 /* AddItemView.swift */,
-				BAADBEEF1234567800000012 /* ProfileView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		BAADBEEF1234567800000026 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				BAADBEEF1234567800000014 /* Item.swift */,
-				BAADBEEF1234567800000016 /* Location.swift */,
-				BAADBEEF1234567800000018 /* ItemStore.swift */,
-				BAADBEEF1234567800000020 /* LocationStore.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		BAADBEEF1234567800000027 = {
-			isa = PBXGroup;
-			children = (
-				BAADBEEF1234567800000024 /* FindrIOS */,
-				BAADBEEF1234567800000023 /* Products */,
-			);
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		BAADBEEF1234567800000028 /* FindrIOS */ = {
+		612172912D84495300070978 /* FindrIOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BAADBEEF1234567800000029 /* Build configuration list for PBXNativeTarget "FindrIOS" */;
+			buildConfigurationList = 612172B82D84495400070978 /* Build configuration list for PBXNativeTarget "FindrIOS" */;
 			buildPhases = (
-				BAADBEEF1234567800000030 /* Sources */,
-				BAADBEEF1234567800000022 /* Frameworks */,
-				BAADBEEF1234567800000031 /* Resources */,
+				6121728E2D84495300070978 /* Sources */,
+				6121728F2D84495300070978 /* Frameworks */,
+				612172902D84495300070978 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				612172942D84495300070978 /* FindrIOS */,
+			);
 			name = FindrIOS;
+			packageProductDependencies = (
+			);
 			productName = FindrIOS;
-			productReference = BAADBEEF1234567800000000 /* FindrIOS.app */;
+			productReference = 612172922D84495300070978 /* FindrIOS.app */;
 			productType = "com.apple.product-type.application";
+		};
+		612172A32D84495400070978 /* FindrIOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 612172BB2D84495400070978 /* Build configuration list for PBXNativeTarget "FindrIOSTests" */;
+			buildPhases = (
+				612172A02D84495400070978 /* Sources */,
+				612172A12D84495400070978 /* Frameworks */,
+				612172A22D84495400070978 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				612172A62D84495400070978 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				612172A72D84495400070978 /* FindrIOSTests */,
+			);
+			name = FindrIOSTests;
+			packageProductDependencies = (
+			);
+			productName = FindrIOSTests;
+			productReference = 612172A42D84495400070978 /* FindrIOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		612172AD2D84495400070978 /* FindrIOSUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 612172BE2D84495400070978 /* Build configuration list for PBXNativeTarget "FindrIOSUITests" */;
+			buildPhases = (
+				612172AA2D84495400070978 /* Sources */,
+				612172AB2D84495400070978 /* Frameworks */,
+				612172AC2D84495400070978 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				612172B02D84495400070978 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				612172B12D84495400070978 /* FindrIOSUITests */,
+			);
+			name = FindrIOSUITests;
+			packageProductDependencies = (
+			);
+			productName = FindrIOSUITests;
+			productReference = 612172AE2D84495400070978 /* FindrIOSUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		BAADBEEF1234567800000032 /* Project object */ = {
+		6121728A2D84495300070978 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
 				TargetAttributes = {
-					BAADBEEF1234567800000028 = {
-						CreatedOnToolsVersion = 15.0;
+					612172912D84495300070978 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					612172A32D84495400070978 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 612172912D84495300070978;
+					};
+					612172AD2D84495400070978 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 612172912D84495300070978;
 					};
 				};
 			};
-			buildConfigurationList = BAADBEEF1234567800000033 /* Build configuration list for PBXProject "FindrIOS" */;
-			compatibilityVersion = "Xcode 14.0";
+			buildConfigurationList = 6121728D2D84495300070978 /* Build configuration list for PBXProject "FindrIOS" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = BAADBEEF1234567800000027;
-			productRefGroup = BAADBEEF1234567800000023 /* Products */;
+			mainGroup = 612172892D84495300070978;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 612172932D84495300070978 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BAADBEEF1234567800000028 /* FindrIOS */,
+				612172912D84495300070978 /* FindrIOS */,
+				612172A32D84495400070978 /* FindrIOSTests */,
+				612172AD2D84495400070978 /* FindrIOSUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		BAADBEEF1234567800000031 /* Resources */ = {
+		612172902D84495300070978 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		612172A22D84495400070978 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		612172AC2D84495400070978 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -159,27 +232,44 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		BAADBEEF1234567800000030 /* Sources */ = {
+		6121728E2D84495300070978 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BAADBEEF1234567800000001 /* FindrApp.swift in Sources */,
-				BAADBEEF1234567800000003 /* MainTabView.swift in Sources */,
-				BAADBEEF1234567800000005 /* HomeView.swift in Sources */,
-				BAADBEEF1234567800000007 /* LocationsView.swift in Sources */,
-				BAADBEEF1234567800000009 /* AddItemView.swift in Sources */,
-				BAADBEEF1234567800000011 /* ProfileView.swift in Sources */,
-				BAADBEEF1234567800000013 /* Item.swift in Sources */,
-				BAADBEEF1234567800000015 /* Location.swift in Sources */,
-				BAADBEEF1234567800000017 /* ItemStore.swift in Sources */,
-				BAADBEEF1234567800000019 /* LocationStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		612172A02D84495400070978 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		612172AA2D84495400070978 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		612172A62D84495400070978 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 612172912D84495300070978 /* FindrIOS */;
+			targetProxy = 612172A52D84495400070978 /* PBXContainerItemProxy */;
+		};
+		612172B02D84495400070978 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 612172912D84495300070978 /* FindrIOS */;
+			targetProxy = 612172AF2D84495400070978 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
-		BAADBEEF1234567800000034 /* Debug */ = {
+		612172B62D84495400070978 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -231,7 +321,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -242,7 +332,7 @@
 			};
 			name = Debug;
 		};
-		BAADBEEF1234567800000035 /* Release */ = {
+		612172B72D84495400070978 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -288,7 +378,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -298,17 +388,17 @@
 			};
 			name = Release;
 		};
-		BAADBEEF1234567800000036 /* Debug */ = {
+		612172B92D84495400070978 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_ASSET_PATHS = "\"FindrIOS/Preview Content\"";
+				DEVELOPMENT_TEAM = BU6T3UDZ7D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = $(SRCROOT)/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -319,7 +409,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.FindrIOS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.simon.demoIOS.FindrIOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -327,17 +417,17 @@
 			};
 			name = Debug;
 		};
-		BAADBEEF1234567800000037 /* Release */ = {
+		612172BA2D84495400070978 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_ASSET_PATHS = "\"FindrIOS/Preview Content\"";
+				DEVELOPMENT_TEAM = BU6T3UDZ7D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = $(SRCROOT)/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -348,7 +438,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.FindrIOS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.simon.demoIOS.FindrIOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -356,28 +446,118 @@
 			};
 			name = Release;
 		};
+		612172BC2D84495400070978 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BU6T3UDZ7D;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.simon.demoIOS.FindrIOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FindrIOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FindrIOS";
+			};
+			name = Debug;
+		};
+		612172BD2D84495400070978 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BU6T3UDZ7D;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.simon.demoIOS.FindrIOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FindrIOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FindrIOS";
+			};
+			name = Release;
+		};
+		612172BF2D84495400070978 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BU6T3UDZ7D;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.simon.demoIOS.FindrIOSUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FindrIOS;
+			};
+			name = Debug;
+		};
+		612172C02D84495400070978 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BU6T3UDZ7D;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.simon.demoIOS.FindrIOSUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FindrIOS;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BAADBEEF1234567800000029 /* Build configuration list for PBXNativeTarget "FindrIOS" */ = {
+		6121728D2D84495300070978 /* Build configuration list for PBXProject "FindrIOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BAADBEEF1234567800000036 /* Debug */,
-				BAADBEEF1234567800000037 /* Release */,
+				612172B62D84495400070978 /* Debug */,
+				612172B72D84495400070978 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BAADBEEF1234567800000033 /* Build configuration list for PBXProject "FindrIOS" */ = {
+		612172B82D84495400070978 /* Build configuration list for PBXNativeTarget "FindrIOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BAADBEEF1234567800000034 /* Debug */,
-				BAADBEEF1234567800000035 /* Release */,
+				612172B92D84495400070978 /* Debug */,
+				612172BA2D84495400070978 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		612172BB2D84495400070978 /* Build configuration list for PBXNativeTarget "FindrIOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				612172BC2D84495400070978 /* Debug */,
+				612172BD2D84495400070978 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		612172BE2D84495400070978 /* Build configuration list for PBXNativeTarget "FindrIOSUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				612172BF2D84495400070978 /* Debug */,
+				612172C02D84495400070978 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = BAADBEEF1234567800000032 /* Project object */;
+	rootObject = 6121728A2D84495300070978 /* Project object */;
 }
