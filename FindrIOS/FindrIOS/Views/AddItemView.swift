@@ -17,6 +17,10 @@ struct AddItemView: View {
     // 用于跳转到首页
     @Binding var selectedTab: Int
     
+    // 编辑模式相关
+    var item: Item? // 如果是编辑模式，则传入物品
+    var isEditMode: Bool { item != nil }
+    
     // Toast提示相关状态
     @State private var showingToast = false
     @State private var toastMessage = ""
@@ -31,10 +35,12 @@ struct AddItemView: View {
     @State private var selectedSublocation = ""
     @State private var notes = ""
     @State private var selectedItem: PhotosPickerItem?
-    @State private var selectedImageData: Data?
+    @State private var selectedImageData: Data? = nil
     @State private var tagText = ""
     @State private var tags: [String] = []
     @State private var showingCancelAlert = false
+    @State private var showingDeleteAlert = false
+    @State private var isFavorite = false
     
     var body: some View {
         NavigationStack {
@@ -49,80 +55,102 @@ struct AddItemView: View {
                                 .frame(height: 200)
                                 .frame(maxWidth: .infinity)
                                 .cornerRadius(12)
+                            
+                            Button("更换照片") {
+                                // 使用状态变量更新图片
+                                self.selectedImageData = nil
+                            }
+                            .foregroundColor(.blue)
+                            .padding(.top, 8)
                         } else {
                             PhotosPicker(selection: $selectedItem, matching: .images) {
                                 VStack {
-                                    Image(systemName: "camera")
-                                        .font(.system(size: 30))
+                                    Image(systemName: "photo")
+                                        .font(.largeTitle)
                                         .foregroundColor(.gray)
-                                    Text("点击添加照片")
-                                        .foregroundColor(.gray)
+                                    Text("添加照片")
+                                        .foregroundColor(.blue)
                                 }
+                                .frame(height: 200)
                                 .frame(maxWidth: .infinity)
-                                .frame(height: 160)
                                 .background(Color(.systemGray6))
                                 .cornerRadius(12)
                             }
-                        }
-                    }
-                    .listRowInsets(EdgeInsets())
-                    .padding(.vertical, 8)
-                }
-                
-                // 物品名称
-                Section(header: Text("物品名称")) {
-                    TextField("输入物品名称", text: $name)
-                }
-                
-                // 分类
-                Section(header: Text("分类")) {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 10) {
-                            ForEach(ItemCategory.allCases, id: \.self) { category in
-                                CategoryButton(
-                                    category: category,
-                                    isSelected: selectedCategory == category,
-                                    action: { 
-                                        selectedCategory = category
-                                        // 根据分类提供标签建议
-                                        suggestTagsForCategory(category)
+                            .onChange(of: selectedItem) { _, newValue in
+                                Task {
+                                    if let data = try? await newValue?.loadTransferable(type: Data.self) {
+                                        selectedImageData = data
                                     }
-                                )
+                                }
                             }
                         }
-                        .padding(.vertical, 8)
                     }
-                    .listRowInsets(EdgeInsets())
                 }
                 
-                // 存放位置
-                Section(header: Text("存放位置")) {
+                // 基本信息
+                Section(header: Text("基本信息")) {
+                    TextField("物品名称", text: $name)
+                    
+                    // 分类选择
+                    VStack(alignment: .leading) {
+                        Text("分类")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 10) {
+                                ForEach(ItemCategory.allCases, id: \.self) { category in
+                                    CategoryButton(category: category, isSelected: selectedCategory == category, action: {
+                                        selectedCategory = category
+                                    })
+                                }
+                            }
+                            .padding(.vertical, 8)
+                        }
+                    }
+                    
+                    // 收藏标记
+                    Toggle("收藏", isOn: $isFavorite)
+                }
+                
+                // 位置信息
+                Section(header: Text("位置信息")) {
                     Picker("选择位置", selection: $selectedLocation) {
-                        Text("请选择位置").tag(nil as Location?)
+                        Text("无")
+                            .tag(nil as Location?)
+                        
                         ForEach(locations) { location in
-                            Text(location.name).tag(location as Location?)
+                            Text(location.name)
+                                .tag(location as Location?)
                         }
                     }
                     .onChange(of: selectedLocation) { _, newLocation in
-                        // 当位置改变时，重置子位置选择
+                        // 清空子位置选择
                         selectedSublocation = ""
+                        
+                        // 如果新选择的位置有子位置，显示子位置选择
                         showingSublocations = newLocation?.sublocations.count ?? 0 > 0
                     }
                     
-                    if let location = selectedLocation, !location.sublocations.isEmpty {
+                    if showingSublocations {
                         Picker("选择子位置", selection: $selectedSublocation) {
-                            Text("请选择子位置").tag("")
-                            ForEach(location.sublocationNames, id: \.self) { sublocationName in
-                                Text(sublocationName).tag(sublocationName)
+                            Text("无")
+                                .tag("")
+                            
+                            if let location = selectedLocation {
+                                ForEach(location.sublocationNames, id: \.self) { sublocation in
+                                    Text(sublocation)
+                                        .tag(sublocation)
+                                }
                             }
                         }
                         .onChange(of: selectedSublocation) { _, newSublocation in
                             if !newSublocation.isEmpty {
-                                // 如果选择了子位置，将其添加到具体位置中
+                                // 将子位置添加到具体位置
                                 if specificLocation.isEmpty {
                                     specificLocation = newSublocation
                                 } else if !specificLocation.contains(newSublocation) {
-                                    specificLocation = "\(newSublocation) - \(specificLocation)"
+                                    specificLocation = "\(newSublocation), \(specificLocation)"
                                 }
                             }
                         }
@@ -145,10 +173,15 @@ struct AddItemView: View {
                         .frame(minHeight: 100)
                 }
                 
-                // 添加标签
-                Section(header: Text("添加标签")) {
+                // 标签
+                Section(header: Text("标签")) {
                     HStack {
-                        TextField("输入标签", text: $tagText)
+                        TextField("添加标签", text: $tagText)
+                            .submitLabel(.done)
+                            .onSubmit {
+                                addTag()
+                            }
+                        
                         Button(action: addTag) {
                             Image(systemName: "plus.circle.fill")
                                 .foregroundColor(.blue)
@@ -156,32 +189,35 @@ struct AddItemView: View {
                         .disabled(tagText.isEmpty)
                     }
                     
-                    if !tags.isEmpty {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack {
-                                ForEach(tags, id: \.self) { tag in
-                                    TagView(tag: tag) {
-                                        if let index = tags.firstIndex(of: tag) {
-                                            tags.remove(at: index)
-                                        }
-                                    }
+                    FlowLayout(spacing: 8) {
+                        ForEach(tags, id: \.self) { tag in
+                            TagView(tag: tag) {
+                                if let index = tags.firstIndex(of: tag) {
+                                    tags.remove(at: index)
                                 }
                             }
-                            .padding(.vertical, 8)
                         }
-                        .listRowInsets(EdgeInsets())
+                    }
+                    .padding(.top, 8)
+                }
+                
+                // 删除按钮（仅编辑模式显示）
+                if isEditMode {
+                    Section {
+                        Button("删除物品", role: .destructive) {
+                            showingDeleteAlert = true
+                        }
                     }
                 }
             }
-            .navigationTitle("添加物品")
-            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(isEditMode ? "编辑物品" : "添加物品")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("取消") {
-                        if !isFormEmpty() {
+                        if hasChanges() {
                             showingCancelAlert = true
                         } else {
-                            cancelEditing()
+                            dismiss()
                         }
                     }
                 }
@@ -190,27 +226,35 @@ struct AddItemView: View {
                     Button("保存") {
                         saveItem()
                     }
-                    .disabled(!isFormValid())
-                    .fontWeight(.semibold)
                 }
             }
-            .alert("确定要取消吗？", isPresented: $showingCancelAlert) {
-                Button("放弃", role: .destructive) { cancelEditing() }
-                Button("继续编辑", role: .cancel) { }
-            } message: {
-                Text("您输入的信息将不会被保存")
+            .alert("确定放弃更改？", isPresented: $showingCancelAlert) {
+                Button("放弃", role: .destructive) {
+                    dismiss()
+                }
+                Button("继续编辑", role: .cancel) {}
             }
-            .onChange(of: selectedItem) { _, newValue in
-                Task {
-                    if let data = try? await newValue?.loadTransferable(type: Data.self) {
-                        selectedImageData = data
-                    }
+            .alert("确定删除此物品？", isPresented: $showingDeleteAlert) {
+                Button("删除", role: .destructive) {
+                    deleteItem()
+                }
+                Button("取消", role: .cancel) {}
+            }
+            .overlay {
+                if showingToast {
+                    ToastView(message: toastMessage, isSuccess: toastSuccess)
+                        .transition(.move(edge: .bottom))
                 }
             }
-            .toast(isShowing: $showingToast, message: toastMessage, isSuccess: toastSuccess)
+            .onAppear {
+                if isEditMode, let item = item {
+                    loadItemData(from: item)
+                }
+            }
         }
     }
     
+    // 添加标签
     private func addTag() {
         let trimmedTag = tagText.trimmingCharacters(in: .whitespacesAndNewlines)
         if !trimmedTag.isEmpty && !tags.contains(trimmedTag) {
@@ -219,109 +263,149 @@ struct AddItemView: View {
         }
     }
     
-    private func suggestTagsForCategory(_ category: ItemCategory) {
-        // 根据分类提供标签建议
-        var suggestedTags: [String] = []
-        
-        switch category {
-        case .clothing:
-            suggestedTags = ["上衣", "裤子", "鞋子", "配饰"]
-        case .kitchen:
-            suggestedTags = ["餐具", "电器", "烹饪", "餐具"]
-        case .books:
-            suggestedTags = ["小说", "教材", "杂志", "参考书"]
-        case .tools:
-            suggestedTags = ["手工工具", "电动工具", "五金", "维修"]
-        case .electronics:
-            suggestedTags = ["手机", "电脑", "配件", "充电器"]
-        case .stationery:
-            suggestedTags = ["笔", "本子", "文件夹", "办公"]
-        case .decoration:
-            suggestedTags = ["相框", "摆件", "小物件", "季节性"]
-        case .other:
-            suggestedTags = ["杯子", "礼品", "纪念品", "收藏"]
+    // 判断表单是否有变化
+    private func hasChanges() -> Bool {
+        if isEditMode, let item = item {
+            return name != item.name ||
+            selectedCategory.rawValue != item.category ||
+            selectedLocation != item.location ||
+            specificLocation != item.specificLocation ||
+            notes != (item.notes ?? "") ||
+            selectedImageData != item.imageData ||
+            tags != item.tagNames ||
+            isFavorite != item.isFavorite
+        } else {
+            return !name.isEmpty || selectedImageData != nil || !specificLocation.isEmpty || !notes.isEmpty || !tags.isEmpty || isFavorite
         }
+    }
+    
+    // 从物品加载数据到表单
+    private func loadItemData(from item: Item) {
+        name = item.name
+        selectedCategory = ItemCategory.allCases.first(where: { $0.rawValue == item.category }) ?? .other
+        selectedLocation = item.location
+        specificLocation = item.specificLocation
+        notes = item.notes ?? ""
+        selectedImageData = item.imageData
+        tags = item.tagNames
+        isFavorite = item.isFavorite
         
-        // 如果标签列表为空，添加建议的标签
-        if tags.isEmpty {
-            // 随机选择2个标签添加
-            let shuffledTags = suggestedTags.shuffled()
-            for i in 0..<min(2, shuffledTags.count) {
-                if !tags.contains(shuffledTags[i]) {
-                    tags.append(shuffledTags[i])
+        // 如果有子位置，尝试找到匹配的子位置
+        if let location = selectedLocation, !specificLocation.isEmpty {
+            showingSublocations = location.sublocations.count > 0
+            for sublocationName in location.sublocationNames {
+                if specificLocation.contains(sublocationName) {
+                    selectedSublocation = sublocationName
+                    break
                 }
             }
         }
     }
     
-    private func isFormValid() -> Bool {
-        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        let trimmedSpecificLocation = specificLocation.trimmingCharacters(in: .whitespacesAndNewlines)
-        return !trimmedName.isEmpty && selectedLocation != nil && !trimmedSpecificLocation.isEmpty
-    }
-    
-    private func isFormEmpty() -> Bool {
-        name.isEmpty && specificLocation.isEmpty && notes.isEmpty && selectedImageData == nil && tags.isEmpty
-    }
-    
-    private func cancelEditing() {
-        // 清空数据
-        clearForm()
-        dismiss()
-    }
-    
-    private func clearForm() {
-        name = ""
-        selectedCategory = .clothing
-        selectedLocation = nil
-        specificLocation = ""
-        selectedSublocation = ""
-        notes = ""
-        selectedImageData = nil
-        tags = []
-        tagText = ""
-    }
-    
+    // 保存物品
     private func saveItem() {
-        // 验证数据
-        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        let trimmedSpecificLocation = specificLocation.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        guard !trimmedName.isEmpty && !trimmedSpecificLocation.isEmpty else {
+        // 验证必填字段
+        guard !name.isEmpty else {
+            showToast(message: "请输入物品名称", success: false)
             return
         }
         
-        // 创建新物品
-        let newItem = Item(
-            name: trimmedName,
-            category: selectedCategory.rawValue,
-            location: selectedLocation,
-            specificLocation: trimmedSpecificLocation,
-            notes: notes.isEmpty ? nil : notes,
-            imageData: selectedImageData,
-            tagNames: tags
-        )
-        
-        // 保存到数据库
-        modelContext.insert(newItem)
-        try? modelContext.save()
-        
-        // 如果选择了位置，将物品添加到位置的物品列表中
-        if let location = selectedLocation {
-            location.items.append(newItem)
-            try? modelContext.save()
+        guard !specificLocation.isEmpty else {
+            showToast(message: "请输入具体位置", success: false)
+            return
         }
         
-        // 显示Toast提示
-        toastMessage = "保存成功"
-        toastSuccess = true
-        showingToast = true
+        if isEditMode, let existingItem = item {
+            // 更新现有物品
+            existingItem.name = name
+            existingItem.category = selectedCategory.rawValue
+            existingItem.location = selectedLocation
+            existingItem.specificLocation = specificLocation
+            existingItem.notes = notes.isEmpty ? nil : notes
+            existingItem.imageData = selectedImageData
+            existingItem.isFavorite = isFavorite
+            
+            // 更新标签
+            // 先删除所有旧标签
+            existingItem.tags.forEach { modelContext.delete($0) }
+            existingItem.tags = []
+            
+            // 添加新标签
+            for tagName in tags {
+                existingItem.addTag(tagName)
+            }
+            
+            showToast(message: "物品已更新", success: true)
+        } else {
+            // 创建新物品
+            let newItem = Item(
+                name: name,
+                category: selectedCategory.rawValue,
+                location: selectedLocation,
+                specificLocation: specificLocation,
+                notes: notes.isEmpty ? nil : notes,
+                imageData: selectedImageData,
+                tagNames: tags,
+                timestamp: Date()
+            )
+            newItem.isFavorite = isFavorite
+            
+            // 添加到数据库
+            modelContext.insert(newItem)
+            showToast(message: "物品已添加", success: true)
+        }
         
-        // 清空数据
-        clearForm()
+        // 保存更改
+        do {
+            try modelContext.save()
+            
+            // 延迟关闭页面
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                dismiss()
+                if !isEditMode {
+                    selectedTab = 0 // 返回首页
+                }
+            }
+        } catch {
+            showToast(message: "保存失败: \(error.localizedDescription)", success: false)
+        }
+    }
+    
+    // 删除物品
+    private func deleteItem() {
+        guard isEditMode, let item = item else { return }
         
-        // 跳转到首页
-        selectedTab = 0
+        modelContext.delete(item)
+        
+        do {
+            try modelContext.save()
+            showToast(message: "物品已删除", success: true)
+            
+            // 延迟关闭页面
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                dismiss()
+                selectedTab = 0 // 返回首页
+            }
+        } catch {
+            showToast(message: "删除失败: \(error.localizedDescription)", success: false)
+        }
+    }
+    
+    // 显示Toast提示
+    private func showToast(message: String, success: Bool) {
+        toastMessage = message
+        toastSuccess = success
+        
+        withAnimation {
+            showingToast = true
+        }
+        
+        // 2秒后隐藏
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            withAnimation {
+                showingToast = false
+            }
+        }
     }
 }
 
@@ -351,21 +435,15 @@ struct TagView: View {
         HStack(spacing: 4) {
             Text(tag)
                 .font(.caption)
-                .padding(.leading, 8)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
             
             Button(action: onRemove) {
                 Image(systemName: "xmark.circle.fill")
                     .font(.caption)
             }
-            .padding(.trailing, 8)
         }
-        .padding(.vertical, 4)
         .background(Color(.systemGray5))
         .cornerRadius(12)
     }
-}
-
-#Preview {
-    AddItemView(selectedTab: .constant(0))
-        .modelContainer(for: [Item.self, Location.self, ItemTag.self], inMemory: true)
 }

@@ -118,7 +118,7 @@ struct ItemListView: View {
             }
             .sheet(isPresented: $showingItemEdit) {
                 if let item = selectedItem {
-                    EditItemView(item: item, selectedTab: $selectedTab)
+                    AddItemView(selectedTab: $selectedTab, item: item)
                 }
             }
             .alert("确定删除此物品？", isPresented: $showingDeleteAlert) {

@@ -207,7 +207,7 @@ struct EditItemView: View {
         return NavigationStack {
             formContent
                 .navigationTitle("编辑物品")
-                .toolbar {
+                .toolbar(content: {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button("取消") {
                             if hasChanges() {
@@ -223,7 +223,7 @@ struct EditItemView: View {
                             saveItem()
                         }
                     }
-                }
+                })
                 .onAppear {
                     // 加载物品数据
                     loadItemData()

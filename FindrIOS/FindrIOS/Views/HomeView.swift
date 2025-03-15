@@ -148,7 +148,7 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showingItemEdit) {
                 if let item = selectedItem {
-                    EditItemView(item: item, selectedTab: $selectedTab)
+                    AddItemView(selectedTab: $selectedTab, item: item)
                 }
             }
         }

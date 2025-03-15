@@ -20,8 +20,12 @@ struct SearchView: View {
     @Binding var selectedTab: Int
     
     // 搜索历史相关
-    @State private var searchHistory: [SearchHistory] = []
+    @State private var searchHistory: [FindrIOS.SearchHistory] = []
     @State private var showingSearchHistory = false
+    
+    // 下拉刷新相关
+    @State private var isRefreshing = false
+    @State private var showAllItems = false // 控制是否显示所有物品
     
     init(selectedTab: Binding<Int>) {
         self._selectedTab = selectedTab
@@ -64,6 +68,10 @@ struct SearchView: View {
                         ForEach(SearchFilter.allCases, id: \.self) { filter in
                             Button(action: {
                                 selectedFilter = filter
+                                // 如果搜索框为空，则显示所有物品
+                                if searchText.isEmpty {
+                                    showAllItems = true
+                                }
                             }) {
                                 Text(filter.rawValue)
                                     .font(.subheadline)
@@ -79,10 +87,10 @@ struct SearchView: View {
                 }
                 .padding(.horizontal)
                 
-                if searchText.isEmpty && searchHistory.isEmpty {
-                    ContentUnavailableView("搜索物品", systemImage: "magnifyingglass", description: Text("输入关键词搜索物品名称、位置或标签"))
+                if searchText.isEmpty && !showAllItems && searchHistory.isEmpty {
+                    ContentUnavailableView("搜索物品", systemImage: "magnifyingglass", description: Text("输入关键词搜索物品名称、位置或标签或点击分类按钮查看所有物品"))
                         .padding(.top, 40)
-                } else if searchText.isEmpty && !searchHistory.isEmpty {
+                } else if searchText.isEmpty && !showAllItems && !searchHistory.isEmpty {
                     // 显示搜索历史
                     SearchHistoryView(searchHistory: searchHistory, onSelect: { historyItem in
                         searchText = historyItem.query
@@ -104,12 +112,25 @@ struct SearchView: View {
                         }
                     }
                     .listStyle(.plain)
+                    .refreshable {
+                        // 模拟刷新操作
+                        isRefreshing = true
+                        // 延迟1秒模拟刷新
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            isRefreshing = false
+                        }
+                    }
+                    .overlay {
+                        if filteredItems.isEmpty {
+                            ContentUnavailableView("没有找到物品", systemImage: "magnifyingglass", description: Text("尝试使用不同的关键词或分类进行搜索"))
+                        }
+                    }
                 }
             }
             .navigationTitle("搜索")
             .sheet(isPresented: $showingItemEdit) {
                 if let item = selectedItem {
-                    EditItemView(item: item, selectedTab: $selectedTab)
+                    AddItemView(selectedTab: $selectedTab, item: item)
                 }
             }
             .sheet(isPresented: $showingSearchHistory) {
@@ -121,7 +142,7 @@ struct SearchView: View {
                 }, onClear: {
                     clearSearchHistory()
                 })
-                .presentationDetents([.medium])
+                .presentationDetents([.medium]) // 修复presentationDetents的使用
             }
             .onAppear {
                 loadSearchHistory()
@@ -131,15 +152,21 @@ struct SearchView: View {
     
     // 过滤后的物品
     var filteredItems: [Item] {
-        if searchText.isEmpty {
+        // 如果搜索文本为空且不显示所有物品，则返回空数组
+        if searchText.isEmpty && !showAllItems {
             return []
         }
         
-        var result = items.filter { item in
-            item.name.localizedCaseInsensitiveContains(searchText) ||
-            item.specificLocation.localizedCaseInsensitiveContains(searchText) ||
-            item.location?.name.localizedCaseInsensitiveContains(searchText) == true ||
-            item.tagNames.contains { $0.localizedCaseInsensitiveContains(searchText) }
+        var result = items
+        
+        // 如果有搜索文本，按搜索文本过滤
+        if !searchText.isEmpty {
+            result = result.filter { item in
+                item.name.localizedCaseInsensitiveContains(searchText) ||
+                item.specificLocation.localizedCaseInsensitiveContains(searchText) ||
+                item.location?.name.localizedCaseInsensitiveContains(searchText) == true ||
+                item.tagNames.contains { $0.localizedCaseInsensitiveContains(searchText) }
+            }
         }
         
         // 按筛选器进一步过滤
@@ -150,7 +177,8 @@ struct SearchView: View {
             result = result.filter { $0.category == selectedFilter.rawValue }
         }
         
-        return result
+        // 按时间排序，最新的在前
+        return result.sorted(by: { $0.timestamp > $1.timestamp })
     }
     
     // 添加搜索历史
@@ -161,7 +189,7 @@ struct SearchView: View {
         }
         
         // 添加到历史记录开头
-        let newHistory = SearchHistory(query: query, filter: selectedFilter, timestamp: Date())
+        let newHistory = FindrIOS.SearchHistory(query: query, filter: selectedFilter, timestamp: Date())
         searchHistory.insert(newHistory, at: 0)
         
         // 限制历史记录数量
@@ -186,10 +214,10 @@ struct SearchView: View {
         }
     }
     
-    // 从UserDefaults加载搜索历史
+    // 从 UserDefaults 加载搜索历史
     private func loadSearchHistory() {
         if let savedHistory = UserDefaults.standard.data(forKey: "searchHistory"),
-           let decodedHistory = try? JSONDecoder().decode([SearchHistory].self, from: savedHistory) {
+           let decodedHistory = try? JSONDecoder().decode([FindrIOS.SearchHistory].self, from: savedHistory) {
             searchHistory = decodedHistory
         }
     }
@@ -197,8 +225,8 @@ struct SearchView: View {
 
 // 搜索历史视图
 struct SearchHistoryView: View {
-    let searchHistory: [SearchHistory]
-    let onSelect: (SearchHistory) -> Void
+    let searchHistory: [FindrIOS.SearchHistory]
+    let onSelect: (FindrIOS.SearchHistory) -> Void
     let onClear: () -> Void
     
     var body: some View {
@@ -213,50 +241,46 @@ struct SearchHistoryView: View {
                 .foregroundColor(.blue)
             }
             .padding(.horizontal)
+            .padding(.top)
             
             if searchHistory.isEmpty {
-                ContentUnavailableView("无搜索历史", systemImage: "clock", description: Text("您的搜索历史将显示在这里"))
-                    .padding(.top, 40)
+                Text("暂无搜索历史")
+                    .foregroundColor(.gray)
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .center)
             } else {
-                List {
-                    ForEach(searchHistory) { historyItem in
-                        HStack {
-                            Image(systemName: "clock")
-                                .foregroundColor(.gray)
-                            Text(historyItem.query)
-                            
-                            if historyItem.filter != .all {
-                                Text(historyItem.filter.rawValue)
+                ScrollView {
+                    LazyVStack(alignment: .leading, spacing: 12) {
+                        ForEach(0..<searchHistory.count, id: \.self) { index in
+                            let history = searchHistory[index]
+                            HStack {
+                                Image(systemName: "clock")
+                                    .foregroundColor(.gray)
+                                VStack(alignment: .leading) {
+                                    Text(history.query)
+                                    Text(history.filter.rawValue)
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                }
+                                Spacer()
+                                Text(history.formattedDate)
                                     .font(.caption)
-                                    .padding(.horizontal, 8)
-                                    .padding(.vertical, 2)
-                                    .background(Color.blue.opacity(0.1))
-                                    .foregroundColor(.blue)
-                                    .cornerRadius(8)
+                                    .foregroundColor(.gray)
                             }
-                            
-                            Spacer()
-                            
-                            Text(formattedDate(historyItem.timestamp))
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                        }
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            onSelect(historyItem)
+                            .padding(.horizontal)
+                            .padding(.vertical, 8)
+                            .background(Color(.systemBackground))
+                            .cornerRadius(8)
+                            .onTapGesture {
+                                onSelect(history)
+                            }
                         }
                     }
+                    .padding(.horizontal)
                 }
-                .listStyle(.plain)
             }
         }
-    }
-    
-    private func formattedDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .short
-        return formatter.string(from: date)
+        .padding(.bottom)
     }
 }
 
