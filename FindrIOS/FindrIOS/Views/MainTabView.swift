@@ -18,7 +18,7 @@ struct MainTabView: View {
                 }
                 .tag(0)
             
-            AddItemView()
+            AddItemView(selectedTab: $selectedTab)
                 .tabItem {
                     Label("添加", systemImage: "plus.circle")
                 }

@@ -14,6 +14,15 @@ struct AddItemView: View {
     @Environment(\.dismiss) private var dismiss
     @Query private var locations: [Location]
     
+    // 用于跳转到首页
+    @Binding var selectedTab: Int
+    
+    // Toast提示相关状态
+    @State private var showingToast = false
+    @State private var toastMessage = ""
+    @State private var toastSuccess = true
+    
+    // 表单数据
     @State private var name = ""
     @State private var selectedCategory: ItemCategory = .clothing
     @State private var selectedLocation: Location?
@@ -172,7 +181,7 @@ struct AddItemView: View {
                         if !isFormEmpty() {
                             showingCancelAlert = true
                         } else {
-                            dismiss()
+                            cancelEditing()
                         }
                     }
                 }
@@ -186,7 +195,7 @@ struct AddItemView: View {
                 }
             }
             .alert("确定要取消吗？", isPresented: $showingCancelAlert) {
-                Button("放弃", role: .destructive) { dismiss() }
+                Button("放弃", role: .destructive) { cancelEditing() }
                 Button("继续编辑", role: .cancel) { }
             } message: {
                 Text("您输入的信息将不会被保存")
@@ -198,6 +207,7 @@ struct AddItemView: View {
                     }
                 }
             }
+            .toast(isShowing: $showingToast, message: toastMessage, isSuccess: toastSuccess)
         }
     }
     
@@ -254,6 +264,24 @@ struct AddItemView: View {
         name.isEmpty && specificLocation.isEmpty && notes.isEmpty && selectedImageData == nil && tags.isEmpty
     }
     
+    private func cancelEditing() {
+        // 清空数据
+        clearForm()
+        dismiss()
+    }
+    
+    private func clearForm() {
+        name = ""
+        selectedCategory = .clothing
+        selectedLocation = nil
+        specificLocation = ""
+        selectedSublocation = ""
+        notes = ""
+        selectedImageData = nil
+        tags = []
+        tagText = ""
+    }
+    
     private func saveItem() {
         // 验证数据
         let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -284,7 +312,16 @@ struct AddItemView: View {
             try? modelContext.save()
         }
         
-        dismiss()
+        // 显示Toast提示
+        toastMessage = "保存成功"
+        toastSuccess = true
+        showingToast = true
+        
+        // 清空数据
+        clearForm()
+        
+        // 跳转到首页
+        selectedTab = 0
     }
 }
 
@@ -329,6 +366,6 @@ struct TagView: View {
 }
 
 #Preview {
-    AddItemView()
+    AddItemView(selectedTab: .constant(0))
         .modelContainer(for: [Item.self, Location.self, ItemTag.self], inMemory: true)
 }
