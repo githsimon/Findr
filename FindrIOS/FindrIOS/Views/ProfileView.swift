@@ -13,6 +13,7 @@ struct ProfileView: View {
     @Query private var items: [Item]
     @Query private var locations: [Location]
     
+    @Binding var selectedTab: Int
     @State private var showingEditProfile = false
     @State private var showingSettings = false
     
@@ -20,6 +21,10 @@ struct ProfileView: View {
     @State private var userName = "大宝贝"
     @State private var userEmail = "dabaobei@example.com"
     @State private var userAvatar: UIImage? = nil
+    
+    init(selectedTab: Binding<Int>) {
+        self._selectedTab = selectedTab
+    }
     
     var body: some View {
         NavigationStack {
@@ -316,6 +321,6 @@ struct EditProfileView: View {
 }
 
 #Preview {
-    ProfileView()
+    ProfileView(selectedTab: .constant(0))
         .modelContainer(for: [Item.self, Location.self, ItemTag.self], inMemory: true)
 }

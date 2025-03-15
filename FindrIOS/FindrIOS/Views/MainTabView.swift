@@ -12,34 +12,40 @@ struct MainTabView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            HomeView()
+            HomeView(selectedTab: $selectedTab)
                 .tabItem {
                     Label("首页", systemImage: "house")
                 }
                 .tag(0)
             
-            AddItemView(selectedTab: $selectedTab)
-                .tabItem {
-                    Label("添加", systemImage: "plus.circle")
-                }
-                .tag(1)
-            
-            LocationsView()
+            LocationsView(selectedTab: $selectedTab)
                 .tabItem {
                     Label("位置", systemImage: "mappin.and.ellipse")
                 }
+                .tag(1)
+            
+            AddItemView(selectedTab: $selectedTab)
+                .tabItem {
+                    Label("添加", systemImage: "plus.circle.fill")
+                }
                 .tag(2)
             
-            ProfileView()
+            SearchView(selectedTab: $selectedTab)
                 .tabItem {
-                    Label("我的", systemImage: "person")
+                    Label("搜索", systemImage: "magnifyingglass")
                 }
                 .tag(3)
+            
+            ProfileView(selectedTab: $selectedTab)
+                .tabItem {
+                    Label("我的", systemImage: "person.crop.circle")
+                }
+                .tag(4)
         }
     }
 }
 
 #Preview {
     MainTabView()
-        .modelContainer(for: [Item.self, Location.self, ItemTag.self], inMemory: true)
+        .modelContainer(for: [Item.self, Location.self, Tag.self], inMemory: true)
 }

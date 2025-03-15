@@ -13,6 +13,12 @@ struct HomeView: View {
     @Query private var items: [Item]
     @Query private var locations: [Location]
     @State private var searchText = ""
+    @Binding var selectedTab: Int
+    
+    @State private var showingItemList = false
+    @State private var selectedCategory: ItemCategory? = nil
+    @State private var selectedItem: Item? = nil
+    @State private var showingItemEdit = false
     
     var body: some View {
         NavigationStack {
@@ -37,6 +43,8 @@ struct HomeView: View {
                             Spacer()
                             Button("查看全部") {
                                 // 查看全部分类的操作
+                                showingItemList = true
+                                selectedCategory = nil
                             }
                             .foregroundColor(.blue)
                             .font(.subheadline)
@@ -60,6 +68,8 @@ struct HomeView: View {
                                     }
                                     .onTapGesture {
                                         // 点击分类的操作
+                                        selectedCategory = category
+                                        showingItemList = true
                                     }
                                 }
                             }
@@ -80,6 +90,11 @@ struct HomeView: View {
                             ForEach(items.sorted(by: { $0.timestamp > $1.timestamp }).prefix(3)) { item in
                                 ItemCardView(item: item)
                                     .padding(.vertical, 4)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        selectedItem = item
+                                        showingItemEdit = true
+                                    }
                             }
                         }
                     }
@@ -97,6 +112,11 @@ struct HomeView: View {
                                 title: "总物品",
                                 value: "\(items.count)"
                             )
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                showingItemList = true
+                                selectedCategory = nil
+                            }
                             
                             StatisticCardView(
                                 icon: "mappin.and.ellipse",
@@ -104,12 +124,16 @@ struct HomeView: View {
                                 title: "存放位置",
                                 value: "\(locations.count)"
                             )
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                selectedTab = 1  // 切换到位置管理标签
+                            }
                         }
                     }
                 }
                 .padding()
             }
-            .navigationTitle("Findr")
+            .navigationTitle("我的物品")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -117,6 +141,14 @@ struct HomeView: View {
                     }) {
                         Image(systemName: "slider.horizontal.3")
                     }
+                }
+            }
+            .sheet(isPresented: $showingItemList) {
+                ItemListView(selectedTab: $selectedTab, category: selectedCategory)
+            }
+            .sheet(isPresented: $showingItemEdit) {
+                if let item = selectedItem {
+                    EditItemView(item: item, selectedTab: $selectedTab)
                 }
             }
         }
@@ -212,6 +244,6 @@ struct StatisticCardView: View {
 }
 
 #Preview {
-    HomeView()
+    HomeView(selectedTab: .constant(0))
         .modelContainer(for: [Item.self, Location.self, ItemTag.self], inMemory: true)
 }
