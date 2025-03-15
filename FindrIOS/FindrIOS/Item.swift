@@ -91,22 +91,60 @@ final class ItemTag {
     }
 }
 
+// 子位置模型
+@Model
+final class Sublocation {
+    var name: String
+    @Relationship(deleteRule: .cascade, inverse: \Location.sublocations)
+    var location: Location?
+    
+    init(name: String) {
+        self.name = name
+    }
+}
+
+// 标签模型
+@Model
+final class Tag {
+    var name: String
+    @Relationship(deleteRule: .cascade, inverse: \Item.tags)
+    var item: Item?
+    
+    init(name: String) {
+        self.name = name
+    }
+}
+
 // 位置模型
 @Model
 final class Location {
     var name: String
     var icon: String
     var iconColor: String
-    @Attribute(.externalStorage)
-    var sublocations: [String]
+    @Relationship(deleteRule: .cascade)
+    var sublocations: [Sublocation] = []
     @Relationship(deleteRule: .cascade, inverse: \Item.location)
     var items: [Item] = []
     
-    init(name: String, icon: String, iconColor: String, sublocations: [String] = []) {
+    init(name: String, icon: String, iconColor: String, sublocationNames: [String] = []) {
         self.name = name
         self.icon = icon
         self.iconColor = iconColor
-        self.sublocations = sublocations
+        // 初始化时创建子位置对象
+        self.sublocations = sublocationNames.map { Sublocation(name: $0) }
+        self.sublocations.forEach { $0.location = self }
+    }
+    
+    // 获取子位置名称数组
+    var sublocationNames: [String] {
+        return sublocations.map { $0.name }
+    }
+    
+    // 添加子位置
+    func addSublocation(_ name: String) {
+        let sublocation = Sublocation(name: name)
+        sublocation.location = self
+        sublocations.append(sublocation)
     }
 }
 
@@ -119,20 +157,34 @@ final class Item {
     var notes: String?
     var imageData: Data?
     var timestamp: Date
-    @Attribute(.externalStorage)
-    var tags: [String] = []
+    @Relationship(deleteRule: .cascade)
+    var tags: [Tag] = []
     @Relationship(deleteRule: .nullify)
     var location: Location?
     var isFavorite: Bool = false
     
-    init(name: String, category: String, location: Location? = nil, specificLocation: String, notes: String? = nil, imageData: Data? = nil, tags: [String] = [], timestamp: Date = Date()) {
+    init(name: String, category: String, location: Location? = nil, specificLocation: String, notes: String? = nil, imageData: Data? = nil, tagNames: [String] = [], timestamp: Date = Date()) {
         self.name = name
         self.category = category
         self.location = location
         self.specificLocation = specificLocation
         self.notes = notes
         self.imageData = imageData
-        self.tags = tags
         self.timestamp = timestamp
+        // 初始化时创建标签对象
+        self.tags = tagNames.map { Tag(name: $0) }
+        self.tags.forEach { $0.item = self }
+    }
+    
+    // 获取标签名称数组
+    var tagNames: [String] {
+        return tags.map { $0.name }
+    }
+    
+    // 添加标签
+    func addTag(_ name: String) {
+        let tag = Tag(name: name)
+        tag.item = self
+        tags.append(tag)
     }
 }

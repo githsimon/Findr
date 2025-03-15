@@ -374,7 +374,7 @@ struct AddLocationView: View {
             name: trimmedName,
             icon: icon,
             iconColor: iconColor,
-            sublocations: sublocations
+            sublocationNames: sublocations
         )
         
         // 保存到数据库
@@ -403,16 +403,16 @@ struct LocationDetailView: View {
                         .font(.headline)
                         .foregroundColor(.gray)
                     
-                    if location.sublocations.isEmpty {
+                    if location.sublocationNames.isEmpty {
                         Text("暂无子位置")
                             .foregroundColor(.gray)
                             .italic()
                     } else {
-                        ForEach(location.sublocations, id: \.self) { sublocation in
+                        ForEach(location.sublocationNames, id: \.self) { sublocationName in
                             HStack {
-                                Text(sublocation)
+                                Text(sublocationName)
                                 Spacer()
-                                Text("\(itemsInSublocation(sublocation)) 件物品")
+                                Text("\(itemsInSublocation(sublocationName)) 件物品")
                                     .font(.caption)
                                     .foregroundColor(.gray)
                             }
@@ -546,7 +546,7 @@ struct EditLocationView: View {
         _name = State(initialValue: location.name)
         _icon = State(initialValue: location.icon)
         _iconColor = State(initialValue: location.iconColor)
-        _sublocations = State(initialValue: location.sublocations)
+        _sublocations = State(initialValue: location.sublocationNames)
     }
     
     var body: some View {
@@ -662,7 +662,15 @@ struct EditLocationView: View {
         location.name = name
         location.icon = icon
         location.iconColor = iconColor
-        location.sublocations = sublocations
+        
+        // 更新子位置
+        // 先清空现有的子位置
+        location.sublocations = []
+        
+        // 添加新的子位置
+        for sublocationName in sublocations {
+            location.addSublocation(sublocationName)
+        }
         
         // 保存到数据库
         try? modelContext.save()

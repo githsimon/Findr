@@ -103,8 +103,8 @@ struct AddItemView: View {
                     if let location = selectedLocation, !location.sublocations.isEmpty {
                         Picker("选择子位置", selection: $selectedSublocation) {
                             Text("请选择子位置").tag("")
-                            ForEach(location.sublocations, id: \.self) { sublocation in
-                                Text(sublocation).tag(sublocation)
+                            ForEach(location.sublocationNames, id: \.self) { sublocationName in
+                                Text(sublocationName).tag(sublocationName)
                             }
                         }
                         .onChange(of: selectedSublocation) { _, newSublocation in
@@ -271,7 +271,7 @@ struct AddItemView: View {
             specificLocation: trimmedSpecificLocation,
             notes: notes.isEmpty ? nil : notes,
             imageData: selectedImageData,
-            tags: tags
+            tagNames: tags
         )
         
         // 保存到数据库
