@@ -27,6 +27,14 @@ struct SearchHistory: Identifiable, Codable {
     var filter: SearchFilter
     var timestamp: Date
     
+    // 格式化的日期
+    var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter.string(from: timestamp)
+    }
+    
     init(query: String, filter: SearchFilter = .all, timestamp: Date = Date()) {
         self.query = query
         self.filter = filter

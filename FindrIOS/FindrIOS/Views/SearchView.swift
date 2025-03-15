@@ -231,56 +231,79 @@ struct SearchHistoryView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            HStack {
-                Text("搜索历史")
-                    .font(.headline)
-                Spacer()
-                Button("清除") {
-                    onClear()
-                }
-                .foregroundColor(.blue)
-            }
-            .padding(.horizontal)
-            .padding(.top)
+            // 标题和清除按钮
+            headerView
             
+            // 内容
+            contentView
+        }
+        .padding(.bottom)
+    }
+    
+    // 标题视图
+    private var headerView: some View {
+        HStack {
+            Text("搜索历史")
+                .font(.headline)
+            Spacer()
+            Button("清除") {
+                onClear()
+            }
+            .foregroundColor(.blue)
+        }
+        .padding(.horizontal)
+        .padding(.top)
+    }
+    
+    // 内容视图
+    private var contentView: some View {
+        Group {
             if searchHistory.isEmpty {
                 Text("暂无搜索历史")
                     .foregroundColor(.gray)
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .center)
             } else {
-                ScrollView {
-                    LazyVStack(alignment: .leading, spacing: 12) {
-                        ForEach(0..<searchHistory.count, id: \.self) { index in
-                            let history = searchHistory[index]
-                            HStack {
-                                Image(systemName: "clock")
-                                    .foregroundColor(.gray)
-                                VStack(alignment: .leading) {
-                                    Text(history.query)
-                                    Text(history.filter.rawValue)
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
-                                }
-                                Spacer()
-                                Text(history.formattedDate)
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                            }
-                            .padding(.horizontal)
-                            .padding(.vertical, 8)
-                            .background(Color(.systemBackground))
-                            .cornerRadius(8)
-                            .onTapGesture {
-                                onSelect(history)
-                            }
-                        }
-                    }
-                    .padding(.horizontal)
-                }
+                historyListView
             }
         }
-        .padding(.bottom)
+    }
+    
+    // 历史列表视图
+    private var historyListView: some View {
+        ScrollView {
+            LazyVStack(alignment: .leading, spacing: 12) {
+                ForEach(0..<searchHistory.count, id: \.self) { index in
+                    historyItemView(for: searchHistory[index])
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
+    
+    // 单个历史项视图
+    private func historyItemView(for history: FindrIOS.SearchHistory) -> some View {
+        HStack {
+            Image(systemName: "clock")
+                .foregroundColor(.gray)
+            VStack(alignment: .leading) {
+                Text(history.query)
+                Text(history.filter.rawValue)
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
+            Spacer()
+            Text(history.formattedDate)
+                .font(.caption)
+                .foregroundColor(.gray)
+        }
+        .padding(.horizontal)
+        .padding(.vertical, 8)
+        .background(Color(.systemBackground))
+        .cornerRadius(8)
+        .onTapGesture {
+            onSelect(history)
+        }
     }
 }
 
