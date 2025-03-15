@@ -10,6 +10,11 @@ import SwiftData
 
 @main
 struct FindrIOSApp: App {
+    init() {
+        // 注册安全转换器
+        TransformerRegistration.register()
+    }
+    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,

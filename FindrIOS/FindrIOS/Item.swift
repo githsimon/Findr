@@ -8,6 +8,24 @@
 import Foundation
 import SwiftData
 import SwiftUI
+import CoreData
+
+// 注册安全转换器
+extension NSSecureUnarchiveFromDataTransformer {
+    static let transformerName = NSValueTransformerName(rawValue: "NSSecureUnarchiveFromDataTransformer")
+    
+    static func register() {
+        let transformer = NSSecureUnarchiveFromDataTransformer()
+        ValueTransformer.setValueTransformer(transformer, forName: transformerName)
+    }
+}
+
+// 在应用启动时注册转换器
+class TransformerRegistration {
+    static func register() {
+        NSSecureUnarchiveFromDataTransformer.register()
+    }
+}
 
 // 物品分类枚举
 enum ItemCategory: String, Codable, CaseIterable {
@@ -79,6 +97,7 @@ final class Location {
     var name: String
     var icon: String
     var iconColor: String
+    @Attribute(.externalStorage)
     var sublocations: [String]
     @Relationship(deleteRule: .cascade, inverse: \Item.location)
     var items: [Item] = []
@@ -100,6 +119,7 @@ final class Item {
     var notes: String?
     var imageData: Data?
     var timestamp: Date
+    @Attribute(.externalStorage)
     var tags: [String] = []
     @Relationship(deleteRule: .nullify)
     var location: Location?

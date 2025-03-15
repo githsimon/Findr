@@ -18,6 +18,8 @@ struct AddItemView: View {
     @State private var selectedCategory: ItemCategory = .clothing
     @State private var selectedLocation: Location?
     @State private var specificLocation = ""
+    @State private var showingSublocations = false
+    @State private var selectedSublocation = ""
     @State private var notes = ""
     @State private var selectedItem: PhotosPickerItem?
     @State private var selectedImageData: Data?
@@ -71,7 +73,11 @@ struct AddItemView: View {
                                 CategoryButton(
                                     category: category,
                                     isSelected: selectedCategory == category,
-                                    action: { selectedCategory = category }
+                                    action: { 
+                                        selectedCategory = category
+                                        // 根据分类提供标签建议
+                                        suggestTagsForCategory(category)
+                                    }
                                 )
                             }
                         }
@@ -88,11 +94,40 @@ struct AddItemView: View {
                             Text(location.name).tag(location as Location?)
                         }
                     }
+                    .onChange(of: selectedLocation) { _, newLocation in
+                        // 当位置改变时，重置子位置选择
+                        selectedSublocation = ""
+                        showingSublocations = newLocation?.sublocations.count ?? 0 > 0
+                    }
+                    
+                    if let location = selectedLocation, !location.sublocations.isEmpty {
+                        Picker("选择子位置", selection: $selectedSublocation) {
+                            Text("请选择子位置").tag("")
+                            ForEach(location.sublocations, id: \.self) { sublocation in
+                                Text(sublocation).tag(sublocation)
+                            }
+                        }
+                        .onChange(of: selectedSublocation) { _, newSublocation in
+                            if !newSublocation.isEmpty {
+                                // 如果选择了子位置，将其添加到具体位置中
+                                if specificLocation.isEmpty {
+                                    specificLocation = newSublocation
+                                } else if !specificLocation.contains(newSublocation) {
+                                    specificLocation = "\(newSublocation) - \(specificLocation)"
+                                }
+                            }
+                        }
+                    }
                 }
                 
                 // 具体位置
                 Section(header: Text("具体位置")) {
                     TextField("例如：第二层右侧", text: $specificLocation)
+                    if selectedLocation != nil && selectedSublocation.isEmpty {
+                        Text("提示：可以先选择子位置，然后再补充具体位置")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
                 }
                 
                 // 备注
@@ -174,8 +209,45 @@ struct AddItemView: View {
         }
     }
     
+    private func suggestTagsForCategory(_ category: ItemCategory) {
+        // 根据分类提供标签建议
+        var suggestedTags: [String] = []
+        
+        switch category {
+        case .clothing:
+            suggestedTags = ["上衣", "裤子", "鞋子", "配饰"]
+        case .kitchen:
+            suggestedTags = ["餐具", "电器", "烹饪", "餐具"]
+        case .books:
+            suggestedTags = ["小说", "教材", "杂志", "参考书"]
+        case .tools:
+            suggestedTags = ["手工工具", "电动工具", "五金", "维修"]
+        case .electronics:
+            suggestedTags = ["手机", "电脑", "配件", "充电器"]
+        case .stationery:
+            suggestedTags = ["笔", "本子", "文件夹", "办公"]
+        case .decoration:
+            suggestedTags = ["相框", "摆件", "小物件", "季节性"]
+        case .other:
+            suggestedTags = ["杯子", "礼品", "纪念品", "收藏"]
+        }
+        
+        // 如果标签列表为空，添加建议的标签
+        if tags.isEmpty {
+            // 随机选择2个标签添加
+            let shuffledTags = suggestedTags.shuffled()
+            for i in 0..<min(2, shuffledTags.count) {
+                if !tags.contains(shuffledTags[i]) {
+                    tags.append(shuffledTags[i])
+                }
+            }
+        }
+    }
+    
     private func isFormValid() -> Bool {
-        !name.isEmpty && selectedLocation != nil && !specificLocation.isEmpty
+        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedSpecificLocation = specificLocation.trimmingCharacters(in: .whitespacesAndNewlines)
+        return !trimmedName.isEmpty && selectedLocation != nil && !trimmedSpecificLocation.isEmpty
     }
     
     private func isFormEmpty() -> Bool {
@@ -183,17 +255,35 @@ struct AddItemView: View {
     }
     
     private func saveItem() {
+        // 验证数据
+        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedSpecificLocation = specificLocation.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        guard !trimmedName.isEmpty && !trimmedSpecificLocation.isEmpty else {
+            return
+        }
+        
+        // 创建新物品
         let newItem = Item(
-            name: name,
+            name: trimmedName,
             category: selectedCategory.rawValue,
             location: selectedLocation,
-            specificLocation: specificLocation,
+            specificLocation: trimmedSpecificLocation,
             notes: notes.isEmpty ? nil : notes,
             imageData: selectedImageData,
             tags: tags
         )
         
+        // 保存到数据库
         modelContext.insert(newItem)
+        try? modelContext.save()
+        
+        // 如果选择了位置，将物品添加到位置的物品列表中
+        if let location = selectedLocation {
+            location.items.append(newItem)
+            try? modelContext.save()
+        }
+        
         dismiss()
     }
 }
