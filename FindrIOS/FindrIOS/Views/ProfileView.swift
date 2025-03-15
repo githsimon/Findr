@@ -17,8 +17,8 @@ struct ProfileView: View {
     @State private var showingSettings = false
     
     // 用户信息（实际应用中应该从用户系统获取）
-    @State private var userName = "李小花"
-    @State private var userEmail = "lixiaohua@example.com"
+    @State private var userName = "大宝贝"
+    @State private var userEmail = "dabaobei@example.com"
     @State private var userAvatar: UIImage? = nil
     
     var body: some View {
